@@ -18,6 +18,7 @@ function App() {
 
     const [filter, setFilter] = useState<FilterValuesType>("all")
 
+
     // let tasks2 = [
     //     {id: v1(), title: "Terminator", isDone: true},
     //     {id: v1(), title: "XXX", isDone: true},
@@ -45,6 +46,14 @@ function App() {
         setFilter(value)
     }
 
+    function changeStatusCheckbox(idTasks: string, isDone: boolean) {
+        let task = tasks.find(t => t.id === idTasks)
+        if (task) {
+            task.isDone = isDone
+            setTasks([...tasks])
+        }
+    }
+
 
     return (
         <div className="App">
@@ -54,6 +63,7 @@ function App() {
                 removeTask={removeTask}
                 changeFilter={changeFilter}
                 addTask={addTask}
+                changeStatusCheckbox={changeStatusCheckbox}
             />
         </div>
     );
