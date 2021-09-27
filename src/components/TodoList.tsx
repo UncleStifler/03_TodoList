@@ -9,13 +9,15 @@ export type TaskType = {
 }
 
 export type TodoListType = {
+    todoListID: string
     todoListTitle: string
     tasks: TaskType[]
-    removeTask: (idTasks: string) => void
-    changeFilter: (value: FilterValuesType) => void
-    addTask: (title: string) => void
-    changeStatusCheckbox: (idTasks: string, isDone: boolean) => void
+    removeTask: (idTasks: string, todolistID: string) => void
+    changeFilter: (value: FilterValuesType, todoListID: string) => void
+    addTask: (title: string, todolistID: string) => void
+    changeStatusCheckbox: (tasksID: string, isDone: boolean, todoListID: string) => void
     filter: FilterValuesType
+    removeTodoList: (todoListID: string) => void
 }
 
 const TodoList = (props: TodoListType) => {
@@ -25,14 +27,14 @@ const TodoList = (props: TodoListType) => {
 
     const addTaskHandler = () => {
         if (newTaskTitle.trim() !== "") {
-            props.addTask(newTaskTitle.trim())
+            props.addTask(newTaskTitle.trim(), props.todoListID)
             setNewTaskTitle("")
         }
     }
 
     const enterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.ctrlKey && e.charCode === 13 && newTaskTitle.trim() !== "") {
-            props.addTask(newTaskTitle)
+            props.addTask(newTaskTitle, props.todoListID)
             setNewTaskTitle("")
         } else {
             setError("Title is required")
@@ -47,22 +49,26 @@ const TodoList = (props: TodoListType) => {
     }
 
     const onAllClickHandler = () => {
-        props.changeFilter("all")
+        props.changeFilter("all", props.todoListID)
     }
     const onCompletedClickHandler = () => {
-        props.changeFilter("completed")
+        props.changeFilter("completed", props.todoListID)
     }
     const onActiveClickHandler = () => {
-        props.changeFilter("active")
+        props.changeFilter("active", props.todoListID)
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setError("")
         setNewTaskTitle(e.currentTarget.value)
     }
 
+    const removeTodoListHandler = () => {
+        props.removeTodoList(props.todoListID)
+    }
+
     return (
         <div>
-            <h3>{props.todoListTitle}</h3>
+            <h3>{props.todoListTitle} <button onClick={removeTodoListHandler}>x</button></h3>
             <div>
                 <input
                     autoFocus
@@ -77,13 +83,13 @@ const TodoList = (props: TodoListType) => {
             <ul>
                 {props.tasks.map(
                     t => {
-                        const onRemoveHandler = () => props.removeTask(t.id)
+                        const onRemoveHandler = () => props.removeTask(t.id, props.todoListID)
                         const onChangeHandlerCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
-                            props.changeStatusCheckbox(t.id, e.currentTarget.checked)
+                            props.changeStatusCheckbox(t.id, e.currentTarget.checked, props.todoListID)
                         }
                         return (
                             <li key={t.id}
-                            className={t.isDone ? "is-done" : ""}>
+                                className={t.isDone ? "is-done" : ""}>
                                 <input
                                     type="checkbox"
                                     onChange={onChangeHandlerCheckbox}
@@ -102,12 +108,12 @@ const TodoList = (props: TodoListType) => {
                     All
                 </button>
                 <button className={props.filter === "active" ? "active-filter" : ""}
-                    onClick={onActiveClickHandler}>
+                        onClick={onActiveClickHandler}>
                     Active
                 </button>
                 <button className={props.filter === "completed" ? "active-filter" : ""}
-                    onClick={onCompletedClickHandler}
-                    >
+                        onClick={onCompletedClickHandler}
+                >
                     Completed
                 </button>
             </div>
