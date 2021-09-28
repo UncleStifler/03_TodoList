@@ -1,5 +1,6 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from "../App";
+import {AddItemForm} from "./AddItemForm";
 
 
 export type TaskType = {
@@ -20,33 +21,7 @@ export type TodoListType = {
     removeTodoList: (todoListID: string) => void
 }
 
-const TodoList = (props: TodoListType) => {
-
-    const [newTaskTitle, setNewTaskTitle] = useState("")
-    const [error, setError] = useState<string | null>(null)
-
-    const addTaskHandler = () => {
-        if (newTaskTitle.trim() !== "") {
-            props.addTask(newTaskTitle.trim(), props.todoListID)
-            setNewTaskTitle("")
-        }
-    }
-
-    const enterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.ctrlKey && e.charCode === 13 && newTaskTitle.trim() !== "") {
-            props.addTask(newTaskTitle, props.todoListID)
-            setNewTaskTitle("")
-        } else {
-            setError("Title is required")
-        }
-
-        // ctrlKey: boolean;
-        // charCode: number; }) => {
-        // if (e.ctrlKey && e.charCode === 13) {
-        //     props.addTask(newTaskTitle)
-        //     setNewTaskTitle("")
-        // }
-    }
+export const TodoList=(props: TodoListType) => {
 
     const onAllClickHandler = () => {
         props.changeFilter("all", props.todoListID)
@@ -57,10 +32,6 @@ const TodoList = (props: TodoListType) => {
     const onActiveClickHandler = () => {
         props.changeFilter("active", props.todoListID)
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setError("")
-        setNewTaskTitle(e.currentTarget.value)
-    }
 
     const removeTodoListHandler = () => {
         props.removeTodoList(props.todoListID)
@@ -68,18 +39,12 @@ const TodoList = (props: TodoListType) => {
 
     return (
         <div>
-            <h3>{props.todoListTitle} <button onClick={removeTodoListHandler}>x</button></h3>
-            <div>
-                <input
-                    autoFocus
-                    value={newTaskTitle}
-                    onChange={onChangeHandler}
-                    onKeyPress={enterHandler}
-                    className={error ? "error" : ""}
-                />
-                <button onClick={addTaskHandler}>+</button>
-                {error && <div className={"error-message"}>Title required</div>}
-            </div>
+            <h3>{props.todoListTitle}
+                <button onClick={removeTodoListHandler}>x</button>
+            </h3>
+            <AddItemForm
+                addItem={props.addTask}
+                todoListID={props.todoListID}/>
             <ul>
                 {props.tasks.map(
                     t => {
@@ -122,4 +87,7 @@ const TodoList = (props: TodoListType) => {
         ;
 };
 
-export default TodoList;
+export default TodoList
+
+
+
