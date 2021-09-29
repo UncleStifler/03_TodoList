@@ -1,8 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 
 export type AddItemFormPropsType = {
-    addItem: (title: string, todolistID: string) => void
-    todoListID: string
+    addItem: (title: string) => void
 }
 
 export function AddItemForm(props: AddItemFormPropsType) {
@@ -16,14 +15,14 @@ export function AddItemForm(props: AddItemFormPropsType) {
 
     const addTaskHandler = () => {
         if (newTaskTitle.trim() !== "") {
-            props.addItem(newTaskTitle.trim(), props.todoListID)
+            props.addItem(newTaskTitle.trim())
             setNewTaskTitle("")
         }
     }
 
     const enterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.ctrlKey && e.charCode === 13 && newTaskTitle.trim() !== "") {
-            props.addItem(newTaskTitle, props.todoListID)
+            props.addItem(newTaskTitle)
             setNewTaskTitle("")
         } else {
             setError("Title is required")

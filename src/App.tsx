@@ -84,12 +84,20 @@ function App() {
         setTasksObj({...tasksObj})
     }
 
-    
+    function addTodoList(title: string) {
+        let todoList: ToDoListType = {
+            id: v1(),
+            todoListTitle: title,
+            filter: "all"
+        }
+        setTodoLists([todoList, ...todoLists])
+        setTasksObj({...tasksObj, [todoList.id]:[]})
+    }
+
 
     return (
         <div className="App">
-            <AddItemForm addItem={() => {}}
-                         todoListID={"blablabla"}/>
+            <AddItemForm addItem={addTodoList}/>
             {
                 todoLists.map(t => {
                     let tasksForTodolist = tasksObj[t.id];
