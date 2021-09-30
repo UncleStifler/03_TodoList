@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import {v1} from "uuid"
-import TodoList from "./components/TodoList";
+import TodoList, {TaskType} from "./components/TodoList";
 import {AddItemForm} from "./components/AddItemForm";
 
 export type FilterValuesType = "all" | "completed" | "active"
@@ -9,6 +9,10 @@ export type ToDoListType = {
     id: string,
     todoListTitle: string,
     filter: FilterValuesType
+}
+
+type TasksStateType = {
+    [key: string] : TaskType[]
 }
 
 function App() {
@@ -22,7 +26,7 @@ function App() {
     ])
 
 
-    const [tasksObj, setTasksObj] = useState({
+    const [tasksObj, setTasksObj] = useState<TasksStateType>({
         [todoListID1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
@@ -95,6 +99,23 @@ function App() {
     }
 
 
+    function changeTaskTitle(id: string, newValue: string, todoListID: string) {
+        let taskForChange = tasksObj[todoListID]
+        let task = taskForChange.find(t => t.id === id)
+        if (task) {
+            task.title = newValue
+            setTasksObj({...tasksObj})
+        }
+    }
+
+    function changeTodoListTitle(todoListID: string, newTodoListTitle: string) {
+        const todoList = todoLists.find( tl => tl.id === todoListID)
+        if (todoList) {
+            todoList.todoListTitle = newTodoListTitle
+            setTodoLists([...todoLists])
+        }
+    }
+
     return (
         <div className="App">
             <AddItemForm addItem={addTodoList}/>
@@ -120,6 +141,8 @@ function App() {
                             changeStatusCheckbox={changeStatusCheckbox}
                             filter={t.filter}
                             removeTodoList={removeTodoList}
+                            changeTaskTitle={changeTaskTitle}
+                            changeTodoListTitle={changeTodoListTitle}
                         />)
 
                 })

@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from "../App";
 import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 
 export type TaskType = {
@@ -17,11 +18,14 @@ export type TodoListType = {
     changeFilter: (value: FilterValuesType, todoListID: string) => void
     addTask: (title: string, todolistID: string) => void
     changeStatusCheckbox: (tasksID: string, isDone: boolean, todoListID: string) => void
+    changeTaskTitle: (id: string, newValue: string, todoListID: string) => void
+    changeTodoListTitle: (todoListID: string, newTodoListTitle: string) => void
     filter: FilterValuesType
     removeTodoList: (todoListID: string) => void
+
 }
 
-export const TodoList=(props: TodoListType) => {
+export const TodoList = (props: TodoListType) => {
 
     const onAllClickHandler = () => {
         props.changeFilter("all", props.todoListID)
@@ -37,13 +41,22 @@ export const TodoList=(props: TodoListType) => {
         props.removeTodoList(props.todoListID)
     }
 
+
+    // изначальная ц-ция просит два аргумента, так можно от него избавиться
     const addTaskForAddItem = (title: string) => {
         props.addTask(title, props.todoListID)
     }
 
+    const changeTodoListTitleHandler = (newTodoListTitle: string) => {
+        props.changeTodoListTitle(props.todoListID, newTodoListTitle)
+    }
+
     return (
         <div>
-            <h3>{props.todoListTitle}
+            <h3>
+                <EditableSpan
+                    title={props.todoListTitle}
+                    onChange={changeTodoListTitleHandler}/>
                 <button onClick={removeTodoListHandler}>x</button>
             </h3>
             <AddItemForm
@@ -55,14 +68,21 @@ export const TodoList=(props: TodoListType) => {
                         const onChangeHandlerCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
                             props.changeStatusCheckbox(t.id, e.currentTarget.checked, props.todoListID)
                         }
+
+                        const onChangeTitleHandler = (newValue: string) => {
+                            props.changeTaskTitle(t.id, newValue, props.todoListID)
+                        }
+
                         return (
                             <li key={t.id}
                                 className={t.isDone ? "is-done" : ""}>
                                 <input
                                     type="checkbox"
                                     onChange={onChangeHandlerCheckbox}
-                                    checked={t.isDone}
-                                /> <span>{t.title}</span>
+                                    checked={t.isDone}/>
+                                <EditableSpan
+                                    title={t.title}
+                                    onChange={onChangeTitleHandler}/>
                                 <button
                                     style={{marginLeft: "5px"}}
                                     onClick={onRemoveHandler}>x
@@ -91,6 +111,5 @@ export const TodoList=(props: TodoListType) => {
 };
 
 export default TodoList
-
 
 
