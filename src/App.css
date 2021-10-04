@@ -1,25 +1,37 @@
-.App {
-  padding: 30px;
-  display: flex;
+/*.App {*/
+/*  padding: 30px;*/
+/*  display: flex;*/
+/*}*/
+
+/*.App > div {*/
+/*  margin-left: 50px;*/
+/*}*/
+
+.commonClassName:nth-child(odd) {
+  background-color: #f6f6f6;
 }
 
-.App > div {
-  margin-left: 50px;
+
+li {
+  list-style-type: none;
 }
 
-
-.error {
-  border: orangered 1px solid;
+ul {
+  padding-left: 0
 }
 
-.error-message {
-  color: orangered;
-}
+/*.error {*/
+/*  border: orangered 1px solid;*/
+/*}*/
 
-.active-filter {
-  background-color: aquamarine;
-}
+/*.error-message {*/
+/*  color: orangered;*/
+/*}*/
 
-.is-done {
-  opacity: 0.5;
-}
+/*.active-filter {*/
+/*  background-color: aquamarine;*/
+/*}*/
+
+/*.is-done {*/
+/*  opacity: 0.5;*/
+/*}*/
