@@ -97,7 +97,7 @@ export const addTaskAC = (taskTitle: string, todoListId: string): AddTaskActionT
     }
 }
 
-export const changeFilterStatusAC = (taskId: string, isDone: boolean, todoListId: string): ChangeFilterStatusType => {
+export const changeStatusCheckboxAC = (taskId: string, isDone: boolean, todoListId: string): ChangeFilterStatusType => {
     return {
         type: 'CHANGE-FILTER-STATUS',
         isDone,
