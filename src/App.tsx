@@ -40,6 +40,7 @@ function App() {
             {id: v1(), title: "XXX", isDone: true},
             {id: v1(), title: "Jentelmens of fortune", isDone: false},
         ]
+
     })
 
     const addTask = (title: string, todolistID: string) => {
