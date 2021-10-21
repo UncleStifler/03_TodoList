@@ -23,7 +23,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
     }
 
     const enterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.ctrlKey && e.charCode === 13 && newTaskTitle.trim() !== "") {
+        if (e.charCode === 13 && newTaskTitle.trim() !== "") {
             props.addItem(newTaskTitle)
             setNewTaskTitle("")
         } else {

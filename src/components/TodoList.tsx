@@ -46,7 +46,8 @@ export const TodoList = (props: TodoListType) => {
 
     // изначальная ц-ция просит два аргумента, так можно от него избавиться
     const addTaskForAddItem = (title: string) => {
-        props.addTask(title, props.todoListID)
+            props.addTask(title, props.todoListID)
+
     }
 
     const changeTodoListTitleHandler = (newTodoListTitle: string) => {

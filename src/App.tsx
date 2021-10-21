@@ -44,10 +44,12 @@ function App() {
     })
 
     const addTask = (title: string, todolistID: string) => {
+        debugger
         let task = {id: v1(), title: title, isDone: false}
         let tasks = tasksObj[todolistID]
         // tasks.unshift(task)
         tasksObj[todolistID] = [task, ...tasks]
+        debugger
         setTasksObj({...tasksObj})
     }
 
@@ -75,9 +77,10 @@ function App() {
     }
 
     function removeTodoList(todoListID: string) {
-        setTodoLists([...todoLists.filter(t => t.id !== todoListID)])
-        delete tasksObj[todoListID]
-        setTasksObj({...tasksObj})
+        debugger
+        // setTodoLists([...todoLists.filter(t => t.id !== todoListID)])
+        // delete tasksObj[todoListID]
+        // setTasksObj({...tasksObj})
     }
 
     function addTodoList(title: string) {
