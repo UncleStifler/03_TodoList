@@ -1,6 +1,5 @@
-import React, {useReducer, useState} from 'react';
+import React from 'react';
 import './App.css';
-import {v1} from "uuid"
 import TodoList, {TaskType} from "./components/TodoList";
 import {AddItemForm} from "./components/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
@@ -9,14 +8,12 @@ import {
     addTodoListAC, changeTodoListFilterAC,
     changeTodoListTitleAC,
     removeTodoListAC,
-    todoListsReducer
 } from "./components/state/todolists-reducer";
 import {
     addTaskAC,
     changeStatusCheckboxAC,
     changeTaskTitleAC,
     removeTaskAC,
-    tasksReducer
 } from "./components/state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./components/state/store";
@@ -33,10 +30,11 @@ export type TasksStateType = {
 }
 
 function AppWithRedux() {
-
+    //useDispatch используется для то чтобы функция задиспатчила то что нам нужно
     const dispatch = useDispatch()
-    const todoLists = useSelector<AppRootStateType,ToDoListType[]>(state => state.todoLists)
-    const tasksObj = useSelector<AppRootStateType,TasksStateType>(state => state.tasks)
+    //useSelector чтобы получить из стора то что нам нужно
+    const todoLists = useSelector<AppRootStateType, ToDoListType[]>(state => state.todoLists)
+    const tasksObj = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     const addTask = (title: string, todolistID: string) => {
         const action = addTaskAC(title, todolistID)
