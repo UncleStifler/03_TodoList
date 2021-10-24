@@ -6,7 +6,8 @@ export type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export function AddItemForm(props: AddItemFormPropsType) {
+export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
+    console.log('AddItem form has been called')
     const [newTaskTitle, setNewTaskTitle] = useState("")
     const [error, setError] = useState<string | null>(null)
 
@@ -14,6 +15,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
         setError("")
         setNewTaskTitle(e.currentTarget.value)
     }
+
 
     const addTaskHandler = () => {
         if (newTaskTitle.trim() !== "") {
@@ -23,6 +25,9 @@ export function AddItemForm(props: AddItemFormPropsType) {
     }
 
     const enterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (error !== null) {
+            setError(null)
+        }
         if (e.charCode === 13 && newTaskTitle.trim() !== "") {
             props.addItem(newTaskTitle)
             setNewTaskTitle("")
@@ -51,4 +56,4 @@ export function AddItemForm(props: AddItemFormPropsType) {
             {/*{error && <div className={"error-message"}>Title required</div>}*/}
         </div>
     );
-};
+});

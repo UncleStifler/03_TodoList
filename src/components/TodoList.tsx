@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {FilterValuesType} from "../App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -27,8 +27,8 @@ export type TodoListType = {
 
 }
 
-export const TodoList = (props: TodoListType) => {
-
+export const TodoList = React.memo(function (props: TodoListType) {
+    console.log('TodoList has been called')
     const onAllClickHandler = () => {
         props.changeFilter("all", props.todoListID)
     }
@@ -45,13 +45,20 @@ export const TodoList = (props: TodoListType) => {
 
 
     // изначальная ц-ция просит два аргумента, так можно от него избавиться
-    const addTaskForAddItem = (title: string) => {
-            props.addTask(title, props.todoListID)
-
-    }
+    const addTaskForAddItem = useCallback((title: string) => {
+        props.addTask(title, props.todoListID)
+    }, [])
 
     const changeTodoListTitleHandler = (newTodoListTitle: string) => {
         props.changeTodoListTitle(props.todoListID, newTodoListTitle)
+    }
+
+    let tasksForTodolist = props.tasks
+    if (props.filter === "completed") {
+        tasksForTodolist= props.tasks.filter(t => t.isDone)
+    }
+    if (props.filter === "active") {
+        tasksForTodolist = props.tasks.filter(t => !t.isDone)
     }
 
     return (
@@ -70,7 +77,7 @@ export const TodoList = (props: TodoListType) => {
             <AddItemForm
                 addItem={addTaskForAddItem}/>
             <ul>
-                {props.tasks.map(
+                {tasksForTodolist.map(
                     t => {
                         const onRemoveHandler = () => props.removeTask(t.id, props.todoListID)
                         const onChangeHandlerCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
@@ -103,7 +110,6 @@ export const TodoList = (props: TodoListType) => {
             <div>
                 <Button
                     variant={props.filter === "all" ? "outlined" : "text"}
-                    // className={props.filter === "all" ? "active-filter" : ""}
                     onClick={onAllClickHandler}>
                     All
                 </Button>
@@ -124,9 +130,8 @@ export const TodoList = (props: TodoListType) => {
                 </Button>
             </div>
         </div>
-    )
-        ;
-};
+    );
+});
 
 export default TodoList
 
