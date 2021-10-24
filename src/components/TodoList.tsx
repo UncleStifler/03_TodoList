@@ -29,17 +29,18 @@ export type TodoListType = {
 
 export const TodoList = React.memo(function (props: TodoListType) {
     console.log('TodoList has been called')
-    const onAllClickHandler = () => {
+    const onAllClickHandler = useCallback(() => {
         props.changeFilter("all", props.todoListID)
-    }
-    const onCompletedClickHandler = () => {
+    },[])
+    const onCompletedClickHandler = useCallback(() => {
         props.changeFilter("completed", props.todoListID)
-    }
-    const onActiveClickHandler = () => {
+    },[])
+    const onActiveClickHandler = useCallback(() => {
         props.changeFilter("active", props.todoListID)
-    }
+    },[])
 
     const removeTodoListHandler = () => {
+
         props.removeTodoList(props.todoListID)
     }
 
@@ -47,7 +48,7 @@ export const TodoList = React.memo(function (props: TodoListType) {
     // изначальная ц-ция просит два аргумента, так можно от него избавиться
     const addTaskForAddItem = useCallback((title: string) => {
         props.addTask(title, props.todoListID)
-    }, [])
+    }, [props.addTask, props.todoListID])
 
     const changeTodoListTitleHandler = (newTodoListTitle: string) => {
         props.changeTodoListTitle(props.todoListID, newTodoListTitle)
@@ -109,6 +110,7 @@ export const TodoList = React.memo(function (props: TodoListType) {
             </ul>
             <div>
                 <Button
+
                     variant={props.filter === "all" ? "outlined" : "text"}
                     onClick={onAllClickHandler}>
                     All
