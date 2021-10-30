@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import './App.css';
-import {v1} from "uuid"
 import TodoList, {TaskType} from "./components/TodoList";
 import {AddItemForm} from "./components/AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
-import {Menu} from "@material-ui/icons";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {v1} from "uuid";
+import {Menu} from "@mui/icons-material";
+
+
 
 export type FilterValuesType = "all" | "completed" | "active"
 export type ToDoListType = {
