@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import TodoList, {TaskType} from "./components/TodoList";
 import {AddItemForm} from "./components/AddItemForm";
@@ -18,6 +18,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./components/state/store";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
+import {todoListsAPI} from "./components/api/todolists-api";
 
 export type FilterValuesType = "all" | "completed" | "active"
 export type ToDoListType = {
@@ -78,6 +79,36 @@ function AppWithRedux() {
         const action = changeTodoListTitleAC(todoListID, newTodoListTitle)
         dispatch(action)
     }, [])
+
+
+    useEffect(() => {
+        todoListsAPI.getTodoLists()
+            .then(response => {
+                console.log(response.data)
+            })
+    }, [])
+
+    // useEffect(() => {
+    //     todoListsAPI.createTodoList("TEST-2")
+    //         .then(response => {
+    //             console.log(response.data)
+    //         })
+    // }, [])
+
+    // useEffect(() => {
+    //     todoListsAPI.deleteTodoList("e52d6ac4-ea74-4524-bdaa-af6b3c59531d")
+    //         .then(response => {
+    //             console.log(response.data)
+    //         })
+    // }, [])
+
+    // useEffect(() => {
+    //     todoListsAPI.updateTodoList('e0cfaf80-83c3-4196-bc47-58298b5bfa09', "CHENGED")
+    //         .then(response => {
+    //             console.log(response.data)
+    //         })
+    // })
+
 
     return (
         <div className="App">
