@@ -1,5 +1,17 @@
 import axios from "axios";
 
+export type TodoListResponse = {
+    id: string,
+    title: string,
+    addedDate: string,
+    order: number
+}
+
+export type ResponseType<param = {}> = {
+    resultCode: number
+    messages: Array<string>
+    data: param
+}
 
 const settings = {
     withCredentials: true,
@@ -15,15 +27,15 @@ const instance = axios.create({
 
 export const todoListsAPI = {
     getTodoLists() {
-        return instance.get('/todo-lists')
+        return instance.get<TodoListResponse[]>('/todo-lists')
     },
     createTodoList(title: string) {
-        return instance.post('/todo-lists', {title: title})
+        return instance.post<ResponseType<{ item: TodoListResponse }>>('/todo-lists', {title: title})
     },
     deleteTodoList(todoListID: string) {
-        return instance.delete(`/todo-lists/${todoListID}`)
+        return instance.delete<ResponseType>(`/todo-lists/${todoListID}`)
     },
     updateTodoList(todoListID: string, title: string) {
-        return instance.put(`/todo-lists/${todoListID}`, {title: title})
+        return instance.put<ResponseType>(`/todo-lists/${todoListID}`, {title: title})
     }
 } 
