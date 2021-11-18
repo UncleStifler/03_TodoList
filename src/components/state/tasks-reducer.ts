@@ -1,6 +1,7 @@
 import {TasksStateType} from "../../App";
-import {AddTodoListActionType, RemoveTodoListActionType, todoListID1, todoListID2} from "./todolists-reducer";
+import {AddTodoListActionType, RemoveTodoListActionType} from "./todolists-reducer";
 import {v1} from "uuid";
+import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
 
 
 type ActionTypes = RemoveTaskActionType | AddTaskActionType | ChangeFilterStatusType |
@@ -13,6 +14,9 @@ type RemoveTaskActionType = {
     taskId: string
 }
 
+
+// export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
+
 type AddTaskActionType = {
     type: 'ADD-TASK'
     title: string
@@ -23,7 +27,7 @@ type ChangeFilterStatusType = {
     type: 'CHANGE-FILTER-STATUS'
     taskId: string
     todoListId: string
-    isDone: boolean
+    status: TaskStatuses
 }
 
 type ChangeTaskTitleType = {
@@ -34,17 +38,17 @@ type ChangeTaskTitleType = {
 }
 
 const initialState: TasksStateType = {
-    [todoListID1]: [
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "TypeScript", isDone: false},
-        {id: v1(), title: "REACT", isDone: true},
-        {id: v1(), title: "REDUX", isDone: true}],
-    [todoListID2]: [
-        {id: v1(), title: "Terminator", isDone: true},
-        {id: v1(), title: "XXX", isDone: true},
-        {id: v1(), title: "Jentelmens of fortune", isDone: false},
-    ]
+    // [todoListID1]: [
+    //     {id: v1(), title: "HTML&CSS", isDone: true},
+    //     {id: v1(), title: "JS", isDone: true},
+    //     {id: v1(), title: "TypeScript", isDone: false},
+    //     {id: v1(), title: "REACT", isDone: true},
+    //     {id: v1(), title: "REDUX", isDone: true}],
+    // [todoListID2]: [
+    //     {id: v1(), title: "Terminator", isDone: true},
+    //     {id: v1(), title: "XXX", isDone: true},
+    //     {id: v1(), title: "Jentelmens of fortune", isDone: false},
+    // ]
 }
 
 
@@ -58,7 +62,13 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         }
         case "ADD-TASK": {
             const stateCopy = {...state}
-            const newTask = {id: v1(), title: action.title, isDone: false}
+            const newTask = {
+                id: v1(), title: action.title,
+                status: TaskStatuses.New,
+                todoListId: action.todoListId, description: '',
+                startDate: '', deadline: '', addedDate: '',
+                order: 0, priority: TaskPriorities.Low
+            }
             const tasks = stateCopy[action.todoListId]
             stateCopy[action.todoListId] = [newTask, ...tasks]
             return {...stateCopy}
@@ -66,7 +76,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case "CHANGE-FILTER-STATUS": {
             let tasks = state[action.todoListId]
             state[action.todoListId] = tasks.map(t =>
-                t.id === action.taskId ? {...t, isDone: action.isDone} : t)
+                t.id === action.taskId ? {...t, isDone: action.status} : t)
             return ({...state})
         }
         case "CHANGE-TASK-TITLE": {
@@ -91,6 +101,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     }
 }
 
+
 export const removeTaskAC = (taskId: string, todoListId: string): RemoveTaskActionType => {
     return {
         type: "REMOVE-TASK",
@@ -106,10 +117,10 @@ export const addTaskAC = (taskTitle: string, todoListId: string): AddTaskActionT
     }
 }
 
-export const changeStatusCheckboxAC = (taskId: string, isDone: boolean, todoListId: string): ChangeFilterStatusType => {
+export const changeStatusCheckboxAC = (taskId: string, status: TaskStatuses, todoListId: string): ChangeFilterStatusType => {
     return {
         type: "CHANGE-FILTER-STATUS",
-        isDone,
+        status,
         todoListId,
         taskId,
     }

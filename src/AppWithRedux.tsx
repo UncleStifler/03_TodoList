@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import './App.css';
-import TodoList, {TaskType} from "./components/TodoList";
+import TodoList from "./components/TodoList";
 import {AddItemForm} from "./components/AddItemForm";
 
 import {
     addTodoListAC, changeTodoListFilterAC,
     changeTodoListTitleAC,
-    removeTodoListAC,
+    removeTodoListAC, TodolistDomainType,
 } from "./components/state/todolists-reducer";
 import {
     addTaskAC,
@@ -18,7 +18,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./components/state/store";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {todoListsAPI} from "./components/api/todolists-api";
+import {TaskStatuses, TaskType, todoListsAPI} from "./components/api/todolists-api";
 import {tasksListsAPI} from "./components/api/tasks-api";
 
 export type FilterValuesType = "all" | "completed" | "active"
@@ -37,7 +37,7 @@ function AppWithRedux() {
     //useDispatch используется для то чтобы функция задиспатчила то что нам нужно
     const dispatch = useDispatch()
     //useSelector чтобы получить из стора то что нам нужно
-    const todoLists = useSelector<AppRootStateType, ToDoListType[]>(state => state.todoLists)
+    const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
     const tasksObj = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     const addTask = useCallback((title: string, todolistID: string) => {
@@ -55,8 +55,8 @@ function AppWithRedux() {
         dispatch(action)
     }, [])
 
-    const changeStatusCheckbox = useCallback((tasksID: string, isDone: boolean, todoListID: string) => {
-        const action = changeStatusCheckboxAC(tasksID, isDone, todoListID)
+    const changeStatusCheckbox = useCallback((tasksID: string, status: TaskStatuses, todoListID: string) => {
+        const action = changeStatusCheckboxAC(tasksID, status, todoListID)
         dispatch(action)
     }, [])
 
@@ -82,12 +82,12 @@ function AppWithRedux() {
     }, [])
 
 
-    useEffect(() => {
-        todoListsAPI.getTodoLists()
-            .then(response => {
-                console.log(response.data)
-            })
-    }, [])
+    // useEffect(() => {
+    //     todoListsAPI.getTodoLists()
+    //         .then(response => {
+    //             console.log(response.data)
+    //         })
+    // }, [])
 
     // useEffect(() => {
     //     todoListsAPI.createTodoList("TEST-2")
@@ -110,12 +110,12 @@ function AppWithRedux() {
     //         })
     // },[])
 
-    useEffect(() => {
-        tasksListsAPI.getTaskLists('d0adab87-cbfe-4dc5-a6bb-35470d4db667')
-            .then(response => {
-                console.log(response.data)
-            })
-    }, [])
+    // useEffect(() => {
+    //     tasksListsAPI.getTaskLists('d0adab87-cbfe-4dc5-a6bb-35470d4db667')
+    //         .then(response => {
+    //             console.log(response.data)
+    //         })
+    // }, [])
 
     // useEffect(() => {
     //     tasksListsAPI.createTask('fdf4500b-a78d-45a8-804e-8724b5e59c32', 'Tasks-2')
@@ -138,47 +138,47 @@ function AppWithRedux() {
     //         })
     // })
 
-    const refreshTodoList = () => {
-        todoListsAPI.getTodoLists()
-            .then(response => {
-                console.log(response.data)
-            })
-    }
-
-    const refreshTasks = () => {
-        tasksListsAPI.getTaskLists('d0adab87-cbfe-4dc5-a6bb-35470d4db667')
-            .then(response => {
-                console.log(response.data)
-            })
-    }
-
-    const addTodoListAxios = () => {
-            todoListsAPI.createTodoList("MANUAL ADD")
-                .then(response => {
-                    console.log(response.data)
-                })
-    }
-
-    const deleteTotoListAxios = () => {
-        todoListsAPI.deleteTodoList(todoListID)
-                .then(response => {
-                    console.log(response.data)
-                })
-    }
-
-    const createNewTaskAxios = () => {
-        tasksListsAPI.createTask('d0adab87-cbfe-4dc5-a6bb-35470d4db667', 'First Button-Axios Task')
-                .then(response => {
-                    console.log(response.data)
-                })
-    }
-
-    const deleteTaskAxios = () => {
-        tasksListsAPI.deleteTask(todoListID, taskID)
-                .then(response => {
-                    console.log(response.data)
-                })
-    }
+    // const refreshTodoList = () => {
+    //     todoListsAPI.getTodoLists()
+    //         .then(response => {
+    //             console.log(response.data)
+    //         })
+    // }
+    //
+    // const refreshTasks = () => {
+    //     tasksListsAPI.getTaskLists('d0adab87-cbfe-4dc5-a6bb-35470d4db667')
+    //         .then(response => {
+    //             console.log(response.data)
+    //         })
+    // }
+    //
+    // const addTodoListAxios = () => {
+    //         todoListsAPI.createTodoList("MANUAL ADD")
+    //             .then(response => {
+    //                 console.log(response.data)
+    //             })
+    // }
+    //
+    // const deleteTotoListAxios = () => {
+    //     todoListsAPI.deleteTodoList(todoListID)
+    //             .then(response => {
+    //                 console.log(response.data)
+    //             })
+    // }
+    //
+    // const createNewTaskAxios = () => {
+    //     tasksListsAPI.createTask('d0adab87-cbfe-4dc5-a6bb-35470d4db667', 'First Button-Axios Task')
+    //             .then(response => {
+    //                 console.log(response.data)
+    //             })
+    // }
+    //
+    // const deleteTaskAxios = () => {
+    //     tasksListsAPI.deleteTask(todoListID, taskID)
+    //             .then(response => {
+    //                 console.log(response.data)
+    //             })
+    // }
 
         const [todoListID, setTodoListID] = useState<string>('')
         const [taskID, setTaskID] = useState<string>('')
@@ -204,16 +204,16 @@ function AppWithRedux() {
 
 
             {/*axios test*/}
-            <input placeholder={'todoListID'} value={todoListID}
-                   onChange={(e) => {setTodoListID(e.currentTarget.value)}}/>
-            <input placeholder={'tasksID'} value={taskID}
-                   onChange={(e) => {setTaskID(e.currentTarget.value)}}/>
-            <button onClick={refreshTodoList}>refreshTodoList</button>
-            <button onClick={refreshTasks}>refreshTasks</button>
-            <button onClick={addTodoListAxios}>addTotoList</button>
-            <button onClick={deleteTotoListAxios}>deleteTotoList</button>
-            <button onClick={createNewTaskAxios}>createNewTask</button>
-            <button onClick={deleteTaskAxios}>deleteTaskAxios</button>
+            {/*<input placeholder={'todoListID'} value={todoListID}*/}
+            {/*       onChange={(e) => {setTodoListID(e.currentTarget.value)}}/>*/}
+            {/*<input placeholder={'tasksID'} value={taskID}*/}
+            {/*       onChange={(e) => {setTaskID(e.currentTarget.value)}}/>*/}
+            {/*<button onClick={refreshTodoList}>refreshTodoList</button>*/}
+            {/*<button onClick={refreshTasks}>refreshTasks</button>*/}
+            {/*<button onClick={addTodoListAxios}>addTotoList</button>*/}
+            {/*<button onClick={deleteTotoListAxios}>deleteTotoList</button>*/}
+            {/*<button onClick={createNewTaskAxios}>createNewTask</button>*/}
+            {/*<button onClick={deleteTaskAxios}>deleteTaskAxios</button>*/}
             {/*<button onClick={}>deleteTask</button>*/}
 
 
@@ -235,7 +235,7 @@ function AppWithRedux() {
                                         <TodoList
                                             key={t.id}
                                             todoListID={t.id}
-                                            todoListTitle={t.todoListTitle}
+                                            todoListTitle={t.title}
                                             tasks={tasksForTodolist}
                                             removeTask={removeTask}
                                             changeFilter={changeFilter}

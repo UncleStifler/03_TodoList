@@ -1,17 +1,12 @@
 import React, {useCallback} from 'react';
-import {FilterValuesType} from "../App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Task} from "./Task";
 import {Delete} from "@mui/icons-material";
 import {Button, IconButton, Link} from "@mui/material";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {FilterValuesType} from "./state/todolists-reducer";
 
-
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
 
 export type TodoListType = {
     todoListID: string
@@ -20,7 +15,7 @@ export type TodoListType = {
     removeTask: (idTasks: string, todolistID: string) => void
     changeFilter: (value: FilterValuesType, todoListID: string) => void
     addTask: (title: string, todolistID: string) => void
-    changeStatusCheckbox: (tasksID: string, isDone: boolean, todoListID: string) => void
+    changeStatusCheckbox: (tasksID: string, status: TaskStatuses, todoListID: string) => void
     changeTaskTitle: (id: string, newValue: string, todoListID: string) => void
     changeTodoListTitle: (todoListID: string, newTodoListTitle: string) => void
     filter: FilterValuesType
@@ -45,7 +40,6 @@ export const TodoList = React.memo(function (props: TodoListType) {
         props.removeTodoList(props.todoListID)
     }
 
-
     // изначальная ц-ция просит два аргумента, так можно от него избавиться
     const addTaskForAddItem = useCallback((title: string) => {
         props.addTask(title, props.todoListID)
@@ -57,10 +51,10 @@ export const TodoList = React.memo(function (props: TodoListType) {
 
     let tasksForTodolist = props.tasks
     if (props.filter === "completed") {
-        tasksForTodolist = props.tasks.filter(t => t.isDone)
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
     }
     if (props.filter === "active") {
-        tasksForTodolist = props.tasks.filter(t => !t.isDone)
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
     return (
