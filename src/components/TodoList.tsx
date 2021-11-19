@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Task} from "./Task";
@@ -6,6 +6,8 @@ import {Delete} from "@mui/icons-material";
 import {Button, IconButton, Link} from "@mui/material";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {FilterValuesType} from "./state/todolists-reducer";
+import {loadTasksTC} from "./state/tasks-reducer";
+import {useDispatch} from "react-redux";
 
 
 export type TodoListType = {
@@ -24,7 +26,14 @@ export type TodoListType = {
 }
 
 export const TodoList = React.memo(function (props: TodoListType) {
-    console.log('TodoList has been called')
+
+    let dispatch = useDispatch()
+
+    useEffect( () => {
+        dispatch(loadTasksTC(props.todoListID))
+    })
+
+
     const onAllClickHandler = useCallback(() => {
         props.changeFilter("all", props.todoListID)
     }, [props.changeFilter, props.todoListID])
@@ -50,6 +59,7 @@ export const TodoList = React.memo(function (props: TodoListType) {
     }, [props.changeTodoListTitle, props.todoListID])
 
     let tasksForTodolist = props.tasks
+
     if (props.filter === "completed") {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
     }

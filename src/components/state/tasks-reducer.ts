@@ -1,11 +1,13 @@
 import {TasksStateType} from "../../App";
 import {AddTodoListActionType, RemoveTodoListActionType} from "./todolists-reducer";
 import {v1} from "uuid";
-import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
+import {TaskPriorities, TaskStatuses, TaskType} from "../api/todolists-api";
+import {Dispatch} from "react";
+import {tasksListsAPI} from "../api/tasks-api";
 
 
 type ActionTypes = RemoveTaskActionType | AddTaskActionType | ChangeFilterStatusType |
-    ChangeTaskTitleType | AddTodoListActionType | RemoveTodoListActionType
+    ChangeTaskTitleType | AddTodoListActionType | RemoveTodoListActionType | loadTasksActionType
 
 type RemoveTaskActionType = {
     type: 'REMOVE-TASK'
@@ -50,6 +52,12 @@ const initialState: TasksStateType = {
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionTypes): TasksStateType => {
     switch (action.type) {
+        case "LOAD-TASKS": {
+            const stateCopy = {...state}
+            stateCopy[action.todoListId] = action.arrayTasks
+            return stateCopy
+        }
+
         case "REMOVE-TASK": {
             const stateCopy = {...state}
             const tasks = state[action.todoListId]
@@ -97,6 +105,11 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     }
 }
 
+export type loadTasksActionType = ReturnType<typeof getTasksAC>
+
+export const getTasksAC = (todoListId: string, arrayTasks: TaskType[]) => {
+    return {type: 'LOAD-TASKS', todoListId, arrayTasks} as const
+}
 
 export const removeTaskAC = (taskId: string, todoListId: string): RemoveTaskActionType => {
     return {
@@ -128,5 +141,16 @@ export const changeTaskTitleAC = (taskId: string, title: string, todoListId: str
         title,
         todoListId,
         taskId,
+    }
+}
+
+
+export const loadTasksTC = (todoListId: string) => {
+    console.log("1")
+    return (dispatch: Dispatch<ActionTypes>) => {
+        tasksListsAPI.getTaskLists(todoListId)
+            .then((res) => {
+                dispatch(getTasksAC(todoListId, res.data.items))
+            })
     }
 }

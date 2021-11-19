@@ -37,7 +37,10 @@ function AppWithRedux() {
     const dispatch = useDispatch()
     //useSelector чтобы получить из стора то что нам нужно
     const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
-    const tasksObj = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const tasksObj = useSelector<AppRootStateType, TasksStateType>(state => {
+
+        return state.tasks
+    })
 
     useEffect(() => {
         dispatch(loadTodoListsTC)

@@ -47,7 +47,7 @@ function App() {
     })
 
     const addTask = (title: string, todolistID: string) => {
-        debugger
+
         let task = {id: v1(), title: title, status: TaskStatuses.New, todoListId: todolistID, description: '',
             startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}
         let tasks = tasksObj[todolistID]
@@ -81,7 +81,7 @@ function App() {
     }
 
     function removeTodoList(todoListID: string) {
-        debugger
+
         // setTodoLists([...todoLists.filter(t => t.id !== todoListID)])
         // delete tasksObj[todoListID]
         // setTasksObj({...tasksObj})

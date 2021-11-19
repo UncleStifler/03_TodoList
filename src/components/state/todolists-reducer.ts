@@ -83,7 +83,7 @@ export const changeTodoListFilterAC = (filter: FilterValuesType, todoListID: str
     } as const
 }
 
-export const loadTodoListsTC = (dispatch: Dispatch<any>, getState: () => AppRootStateType): void => {
+export const loadTodoListsTC = (dispatch: Dispatch<ActionTypes>, getState: () => AppRootStateType): void => {
     todoListsAPI.getTodoLists()
         .then((res) => {
             dispatch(setTodoLists(res.data))

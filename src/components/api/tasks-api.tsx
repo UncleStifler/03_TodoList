@@ -1,11 +1,12 @@
 import axios from "axios";
+import {TaskPriorities, TaskStatuses, TaskType} from "./todolists-api";
 
 
 export type TaskTypeResponse = {
     description: string
     title: string
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
     id: string
@@ -17,8 +18,8 @@ export type TaskTypeResponse = {
 export type UpdateTaskType = {
     title: string
     description: string
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
 }
@@ -26,7 +27,7 @@ export type UpdateTaskType = {
 type getTasksListResponse = {
     error: string| null
     totalCount: number
-    items: TaskTypeResponse[]
+    items: TaskType[]
 }
 
 type responseTasksType = {
@@ -49,7 +50,8 @@ const instance = axios.create({
 
 export const tasksListsAPI = {
     getTaskLists(todoListID: string) {
-        return instance.get<getTasksListResponse[]>(`${todoListID}/tasks`)
+
+        return instance.get<getTasksListResponse>(`${todoListID}/tasks`)
     },
     createTask(todoListID: string, title: string) {
         return instance.post<responseTasksType>(`${todoListID}/tasks`, {title: title})
