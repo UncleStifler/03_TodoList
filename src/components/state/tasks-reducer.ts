@@ -7,15 +7,11 @@ import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
 type ActionTypes = RemoveTaskActionType | AddTaskActionType | ChangeFilterStatusType |
     ChangeTaskTitleType | AddTodoListActionType | RemoveTodoListActionType
 
-
 type RemoveTaskActionType = {
     type: 'REMOVE-TASK'
     todoListId: string,
     taskId: string
 }
-
-
-// export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 
 type AddTaskActionType = {
     type: 'ADD-TASK'
