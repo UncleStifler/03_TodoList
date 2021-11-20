@@ -41,6 +41,15 @@ export type TaskType = {
     addedDate: string
 }
 
+export type UpdateTaskModelType = {
+    title: string
+    description: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string
+    deadline: string
+}
+
 
 const settings = {
     withCredentials: true,
@@ -61,10 +70,11 @@ export const todoListsAPI = {
     createTodoList(title: string) {
         return instance.post<ResponseType<{ item: TodolistType }>>('/todo-lists', {title: title})
     },
-    deleteTodoList(todoListID: string) {
-        return instance.delete<ResponseType>(`/todo-lists/${todoListID}`)
+    deleteTodoList(todoListId: string) {
+        return instance.delete<ResponseType>(`/todo-lists/${todoListId}`)
     },
-    updateTodoList(todoListID: string, title: string) {
-        return instance.put<ResponseType>(`/todo-lists/${todoListID}`, {title: title})
+    updateTodoList(todoListId: string, title: string) {
+        return instance.put<ResponseType>(`/todo-lists/${todoListId}`, {title: title})
     }
-} 
+}
+

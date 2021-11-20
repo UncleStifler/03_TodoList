@@ -11,17 +11,17 @@ import {useDispatch} from "react-redux";
 
 
 export type TodoListType = {
-    todoListID: string
+    todoListId: string
     todoListTitle: string
     tasks: TaskType[]
-    removeTask: (idTasks: string, todolistID: string) => void
-    changeFilter: (value: FilterValuesType, todoListID: string) => void
-    addTask: (title: string, todolistID: string) => void
-    changeStatusCheckbox: (tasksID: string, status: TaskStatuses, todoListID: string) => void
-    changeTaskTitle: (id: string, newValue: string, todoListID: string) => void
-    changeTodoListTitle: (todoListID: string, newTodoListTitle: string) => void
+    removeTask: (idTasks: string, todolistId: string) => void
+    changeFilter: (value: FilterValuesType, todoListId: string) => void
+    addTask: (title: string, todolistId: string) => void
+    changeStatusCheckbox: (tasksID: string, status: TaskStatuses, todoListId: string) => void
+    changeTaskTitle: (id: string, newValue: string, todoListId: string) => void
+    changeTodoListTitle: (todoListId: string, newTodoListTitle: string) => void
     filter: FilterValuesType
-    removeTodoList: (todoListID: string) => void
+    removeTodoList: (todoListId: string) => void
 
 }
 
@@ -30,33 +30,33 @@ export const TodoList = React.memo(function (props: TodoListType) {
     let dispatch = useDispatch()
 
     useEffect( () => {
-        dispatch(loadTasksTC(props.todoListID))
-    })
+        dispatch(loadTasksTC(props.todoListId))
+    },[])
 
 
     const onAllClickHandler = useCallback(() => {
-        props.changeFilter("all", props.todoListID)
-    }, [props.changeFilter, props.todoListID])
+        props.changeFilter("all", props.todoListId)
+    }, [props.changeFilter, props.todoListId])
     const onCompletedClickHandler = useCallback(() => {
-        props.changeFilter("completed", props.todoListID)
-    }, [props.changeFilter, props.todoListID])
+        props.changeFilter("completed", props.todoListId)
+    }, [props.changeFilter, props.todoListId])
     const onActiveClickHandler = useCallback(() => {
-        props.changeFilter("active", props.todoListID)
-    }, [props.changeFilter, props.todoListID])
+        props.changeFilter("active", props.todoListId)
+    }, [props.changeFilter, props.todoListId])
 
     const removeTodoListHandler = () => {
 
-        props.removeTodoList(props.todoListID)
+        props.removeTodoList(props.todoListId)
     }
 
     // изначальная ц-ция просит два аргумента, так можно от него избавиться
     const addTaskForAddItem = useCallback((title: string) => {
-        props.addTask(title, props.todoListID)
-    }, [props.addTask, props.todoListID])
+        props.addTask(title, props.todoListId)
+    }, [props.addTask, props.todoListId])
 
     const changeTodoListTitleHandler = useCallback((newTodoListTitle: string) => {
-        props.changeTodoListTitle(props.todoListID, newTodoListTitle)
-    }, [props.changeTodoListTitle, props.todoListID])
+        props.changeTodoListTitle(props.todoListId, newTodoListTitle)
+    }, [props.changeTodoListTitle, props.todoListId])
 
     let tasksForTodolist = props.tasks
 
@@ -86,11 +86,11 @@ export const TodoList = React.memo(function (props: TodoListType) {
                 {
                     tasksForTodolist && tasksForTodolist.map(t => <Task
                         key={t.id}
-                        todoListID={props.todoListID}
+                        todoListId={props.todoListId}
                         removeTask={props.removeTask}
                         changeStatusCheckbox={props.changeStatusCheckbox}
                         changeTaskTitle={props.changeTaskTitle}
-                        t={t}
+                        task={t}
                     />)
                 }
             </ul>

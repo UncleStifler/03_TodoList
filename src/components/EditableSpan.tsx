@@ -6,7 +6,7 @@ type EditableSpanType = {
     onChange: (newValue: string) => void
 }
 export const EditableSpan = React.memo((props: EditableSpanType) => {
-    console.log('editable span has been called')
+
     const [editMode, setEditMode] = useState(false)
     const [title, setTitle] = useState("")
 

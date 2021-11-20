@@ -1,5 +1,5 @@
-import axios from "axios";
-import {TaskPriorities, TaskStatuses, TaskType} from "./todolists-api";
+import axios, {AxiosResponse} from "axios";
+import {ResponseType, TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType} from "./todolists-api";
 
 
 export type TaskTypeResponse = {
@@ -30,36 +30,25 @@ type getTasksListResponse = {
     items: TaskType[]
 }
 
-type responseTasksType = {
-    resultCode: number
-    messages: string[]
-    data: {}
-}
-
-const settings = {
+const instance = axios.create({
+    baseURL: 'https://social-network.samuraijs.com/api/1.1/todo-lists',
     withCredentials: true,
     headers: {
-        "API-KEY": "bd989617-b1e7-48f3-b931-dc63118fa1e9"
+        'API-KEY': 'bd989617-b1e7-48f3-b931-dc63118fa1e9'
     }
-}
-
-const instance = axios.create({
-    baseURL: "https://social-network.samuraijs.com/api/1.1/todo-lists",
-    ...settings
 })
 
 export const tasksListsAPI = {
-    getTaskLists(todoListID: string) {
-
-        return instance.get<getTasksListResponse>(`${todoListID}/tasks`)
+    getTaskLists(todoListId: string) {
+        return instance.get<getTasksListResponse>(`${todoListId}/tasks`)
     },
-    createTask(todoListID: string, title: string) {
-        return instance.post<responseTasksType>(`${todoListID}/tasks`, {title: title})
+    createTask(todoListId: string, title: string) {
+        return instance.post(`${todoListId}/tasks`, {title: title})
     },
-    deleteTask(todoListID: string, taskID: string) {
-        return instance.delete<responseTasksType>(`${todoListID}/tasks/${taskID}`)
+    deleteTask(todoListId: string, taskId: string) {
+        return instance.delete<ResponseType>(`${todoListId}/tasks/${taskId}`)
     },
-    updateTask(todoListID: string, taskID: string, title: string) {
-        return instance.put<UpdateTaskType>(`${todoListID}/tasks/${taskID}`, {title: title})
+    updateTask(todoListId: string, taskId: string, model: UpdateTaskType) {
+        return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{ item: TaskType }>>>(`${todoListId}/tasks/${taskId}`, model)
     }
 }
