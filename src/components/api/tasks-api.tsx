@@ -1,20 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {ResponseType, TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType} from "./todolists-api";
 
-
-export type TaskTypeResponse = {
-    description: string
-    title: string
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDate: string
-    deadline: string
-    id: string
-    todoListId: string
-    order: number
-    addedDate: string
-}
-
 export type UpdateTaskType = {
     title: string
     description: string

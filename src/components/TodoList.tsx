@@ -29,9 +29,9 @@ export const TodoList = React.memo(function (props: TodoListType) {
 
     let dispatch = useDispatch()
 
-    useEffect( () => {
-        dispatch(loadTasksTC(props.todoListId))
-    },[])
+    // useEffect( () => {
+    //     dispatch(loadTasksTC(props.todoListId))
+    // },[props.tasks])
 
 
     const onAllClickHandler = useCallback(() => {
@@ -51,6 +51,7 @@ export const TodoList = React.memo(function (props: TodoListType) {
 
     // изначальная ц-ция просит два аргумента, так можно от него избавиться
     const addTaskForAddItem = useCallback((title: string) => {
+        console.log(props.todoListId,'Todolist');
         props.addTask(title, props.todoListId)
     }, [props.addTask, props.todoListId])
 

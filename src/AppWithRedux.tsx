@@ -3,9 +3,9 @@ import './App.css';
 import TodoList from "./components/TodoList";
 import {AddItemForm} from "./components/AddItemForm";
 import {
-    addTodoListAC, changeTodoListFilterAC,
-    changeTodoListTitleAC, loadTodoListsTC,
-    removeTodoListAC, removeTodoListTC, TodolistDomainType,
+    changeTodoListFilterActionType,
+    changeTodoListTitleAC, createTodoListTC, FilterValuesType, loadTodoListsTC,
+    removeTodoListTC, TodolistDomainType,
 } from "./components/state/todolists-reducer";
 import {
     addTaskTC,
@@ -19,12 +19,6 @@ import {Menu} from "@mui/icons-material";
 import {TaskStatuses, TaskType} from "./components/api/todolists-api";
 
 
-export type FilterValuesType = "all" | "completed" | "active"
-export type ToDoListType = {
-    id: string,
-    todoListTitle: string,
-    filter: FilterValuesType
-}
 
 export type TasksStateType = {
     [key: string]: TaskType[]
@@ -69,9 +63,7 @@ function AppWithRedux() {
     }, [])
 
     const addTodoList = useCallback((title: string) => {
-        console.log('UseCallback has been called')
-        const action = addTodoListAC(title)
-        dispatch(action)
+        dispatch(createTodoListTC(title))
     }, [])
 
     const changeTaskTitle = useCallback((id: string, newValue: string, todoListId: string) => {
