@@ -1,9 +1,9 @@
 import {AddTodoListActionType, RemoveTodoListActionType, SetTodoListsActionType} from "./todolists-reducer";
 import {TaskStatuses, TaskType, UpdateTaskModelType} from "../api/todolists-api";
-import {Dispatch} from "react";
 import {tasksListsAPI} from "../api/tasks-api";
 import {AppRootStateType} from "./store";
 import {TasksStateType} from "../../AppWithRedux";
+import {Dispatch} from "redux";
 
 
 const initialState: TasksStateType = {}
@@ -112,7 +112,7 @@ export type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
 
 
 export const loadTasksTC = (todoListId: string) => {
-    return (dispatch: Dispatch<ActionTypes>) => {
+    return (dispatch: Dispatch) => {
         tasksListsAPI.getTaskLists(todoListId)
             .then((res) => {
                 dispatch(getTasksAC(todoListId, res.data.items))
@@ -121,7 +121,7 @@ export const loadTasksTC = (todoListId: string) => {
 }
 
 export const removeTaskTC = (taskId: string, todoListId: string) => {
-    return (dispatch: Dispatch<ActionTypes>) => {
+    return (dispatch: Dispatch) => {
         tasksListsAPI.deleteTask(todoListId, taskId)
             .then(() => {
                 dispatch(removeTaskAC(taskId, todoListId))
@@ -130,7 +130,7 @@ export const removeTaskTC = (taskId: string, todoListId: string) => {
 }
 
 export const addTaskTC = (todoListId: string, title: string) => {
-    return (dispatch: Dispatch<ActionTypes>) => {
+    return (dispatch: Dispatch) => {
         tasksListsAPI.createTask(todoListId, title)
             .then((res) => {
                 let task = res.data.data.item
@@ -140,7 +140,7 @@ export const addTaskTC = (todoListId: string, title: string) => {
 }
 
 export const updateTasksStatusTC = (todoListId: string, taskId: string, status: TaskStatuses) =>
-    (dispatch: Dispatch<ActionTypes>, getState: () => AppRootStateType) => {
+    (dispatch: Dispatch, getState: () => AppRootStateType) => {
         const state = getState()
         const allTasks = state.tasks
         const tasksForThisTodoList = allTasks[todoListId]

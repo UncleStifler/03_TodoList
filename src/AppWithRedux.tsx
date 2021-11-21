@@ -3,6 +3,7 @@ import './App.css';
 import TodoList from "./components/TodoList";
 import {AddItemForm} from "./components/AddItemForm";
 import {
+    changeTodoListFilterAC,
     changeTodoListFilterActionType,
     changeTodoListTitleAC, createTodoListTC, FilterValuesType, loadTodoListsTC,
     removeTodoListTC, TodolistDomainType,
@@ -44,7 +45,6 @@ function AppWithRedux() {
     }, [])
 
     const removeTask = useCallback((idTasks: string, todolistId: string) => {
-
         dispatch(removeTaskTC(idTasks, todolistId))
     }, [])
 

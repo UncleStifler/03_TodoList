@@ -1,5 +1,5 @@
 import {todoListsAPI, TodolistType} from "../api/todolists-api";
-import {Dispatch} from "react";
+import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
 import {loadTasksTC} from "./tasks-reducer";
 
@@ -109,16 +109,15 @@ type ActionTypes =
     SetTodoListsActionType
 
 export const removeTodoListTC = (todoListId: string) => {
-    return (dispatch: Dispatch<ActionTypes>) => {
+    return (dispatch: Dispatch) => {
         todoListsAPI.deleteTodoList(todoListId)
             .then(() => {
                 dispatch(removeTodoListAC(todoListId))
             })
-    }
-}
+    }}
 
 export const createTodoListTC = (title: string) => {
-    return (dispatch: Dispatch<ActionTypes>, getState: () => AppRootStateType) => {
+    return (dispatch: Dispatch, getState: () => AppRootStateType) => {
         todoListsAPI.createTodoList(title)
             .then((res) => {
                 let newTodo = res.data.data.item
