@@ -38,7 +38,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case "CHANGE-TASK-TITLE": {
             let tasks = state[action.todoListId]
             state[action.todoListId] = tasks
-                .map(t => t.title === action.title ? {...t, title: action.title} : t)
+                .map(t => t.id === action.taskId ? {...t, title: action.title} : t)
             return ({...state})
         }
         case "ADD-TODOLIST": {
