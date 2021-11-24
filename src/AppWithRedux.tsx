@@ -4,13 +4,13 @@ import TodoList from "./components/TodoList";
 import {AddItemForm} from "./components/AddItemForm";
 import {
     changeTodoListFilterAC,
-    changeTodoListFilterActionType,
-    changeTodoListTitleAC, createTodoListTC, FilterValuesType, loadTodoListsTC,
+
+    changeTodoListTitleTC, createTodoListTC, FilterValuesType, loadTodoListsTC,
     removeTodoListTC, TodolistDomainType,
 } from "./components/state/todolists-reducer";
 import {
     addTaskTC,
-    changeTaskTitleAC,
+    changeTaskTitleTC,
     removeTaskTC, updateTasksStatusTC,
 } from "./components/state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -18,7 +18,6 @@ import {AppRootStateType} from "./components/state/store";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
 import {TaskStatuses, TaskType} from "./components/api/todolists-api";
-
 
 
 export type TasksStateType = {
@@ -54,7 +53,6 @@ function AppWithRedux() {
     }, [])
 
     const changeStatusCheckbox = useCallback((tasksID: string, status: TaskStatuses, todoListId: string) => {
-
         dispatch(updateTasksStatusTC(todoListId, tasksID, status))
     }, [])
 
@@ -67,13 +65,12 @@ function AppWithRedux() {
     }, [])
 
     const changeTaskTitle = useCallback((id: string, newValue: string, todoListId: string) => {
-        const action = changeTaskTitleAC(id, newValue, todoListId)
-        dispatch(action)
+        dispatch(changeTaskTitleTC(id, newValue, todoListId))
     }, [])
 
     const changeTodoListTitle = useCallback((todoListId: string, newTodoListTitle: string) => {
-        const action = changeTodoListTitleAC(todoListId, newTodoListTitle)
-        dispatch(action)
+        const thunk = changeTodoListTitleTC(todoListId, newTodoListTitle)
+        dispatch(thunk)
     }, [])
 
     return (

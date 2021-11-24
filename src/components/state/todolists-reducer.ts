@@ -114,7 +114,8 @@ export const removeTodoListTC = (todoListId: string) => {
             .then(() => {
                 dispatch(removeTodoListAC(todoListId))
             })
-    }}
+    }
+}
 
 export const createTodoListTC = (title: string) => {
     return (dispatch: Dispatch, getState: () => AppRootStateType) => {
@@ -122,6 +123,15 @@ export const createTodoListTC = (title: string) => {
             .then((res) => {
                 let newTodo = res.data.data.item
                 dispatch(addTodoListAC(newTodo))
+            })
+    }
+}
+
+export const changeTodoListTitleTC = (todoListId: string, title: string) => {
+    return (dispatch: Dispatch) => {
+        todoListsAPI.updateTodoList(todoListId, title)
+            .then((res) => {
+                dispatch(changeTodoListTitleAC(todoListId, title))
             })
     }
 }
