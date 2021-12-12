@@ -11,7 +11,7 @@ export type TodolistDomainType = TodolistType & {
 
 const initialState: TodolistDomainType[] = []
 
-export const todoListsReducer = (state: TodolistDomainType[] = initialState, action: ActionTypes): Array<TodolistDomainType> => {
+export const todoListsReducer = (state: TodolistDomainType[] = initialState, action: ActionTypes): TodolistDomainType[] => {
     switch (action.type) {
         case "SET-TODOLIST": {
             return action.todoListsArray.map(t => {
@@ -85,10 +85,7 @@ export const loadTodoListsTC = (dispatch: Dispatch<any>, getState: () => AppRoot
     todoListsAPI.getTodoLists()
         .then((res) => {
             dispatch(setTodoListsAC(res.data))
-
             res.data.forEach((todoList) => {
-                console.log(todoList)
-
                 dispatch(loadTasksTC(todoList.id))
             })
         })

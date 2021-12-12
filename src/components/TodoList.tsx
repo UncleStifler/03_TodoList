@@ -27,7 +27,7 @@ export type TodoListType = {
 
 export const TodoList = React.memo(function (props: TodoListType) {
 
-    let dispatch = useDispatch()
+    // let dispatch = useDispatch()
 
     // useEffect( () => {
     //     dispatch(loadTasksTC(props.todoListId))

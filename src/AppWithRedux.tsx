@@ -15,9 +15,10 @@ import {
 } from "./components/state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./components/state/store";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {AppBar, Button, Container, Grid, IconButton, LinearProgress, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
 import {TaskStatuses, TaskType} from "./components/api/todolists-api";
+import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackBar";
 
 
 export type TasksStateType = {
@@ -30,10 +31,7 @@ function AppWithRedux() {
     const dispatch = useDispatch()
 
     const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
-    const tasksObj = useSelector<AppRootStateType, TasksStateType>(state => {
-
-        return state.tasks
-    })
+    const tasksObj = useSelector<AppRootStateType, TasksStateType>(state => {return state.tasks})
 
     useEffect(() => {
         dispatch(loadTodoListsTC)
@@ -75,6 +73,7 @@ function AppWithRedux() {
 
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -90,6 +89,7 @@ function AppWithRedux() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                <LinearProgress/>
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: "20px"}}>
