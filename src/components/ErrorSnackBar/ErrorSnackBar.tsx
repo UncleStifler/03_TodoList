@@ -20,7 +20,7 @@ export function ErrorSnackbar() {
     return (
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
-                Error message 😠
+                ERROR
             </Alert>
         </Snackbar>
     );

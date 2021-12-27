@@ -1,13 +1,13 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Task} from "./Task";
 import {Delete} from "@mui/icons-material";
-import {Button, IconButton, Link} from "@mui/material";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Link from "@mui/material/Link";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {FilterValuesType} from "./state/todolists-reducer";
-import {loadTasksTC} from "./state/tasks-reducer";
-import {useDispatch} from "react-redux";
 
 
 export type TodoListType = {
@@ -26,13 +26,6 @@ export type TodoListType = {
 }
 
 export const TodoList = React.memo(function (props: TodoListType) {
-
-    // let dispatch = useDispatch()
-
-    // useEffect( () => {
-    //     dispatch(loadTasksTC(props.todoListId))
-    // },[props.tasks])
-
 
     const onAllClickHandler = useCallback(() => {
         props.changeFilter("all", props.todoListId)
@@ -104,7 +97,6 @@ export const TodoList = React.memo(function (props: TodoListType) {
                 <Button
                     color={'success'}
                     variant={props.filter === "active" ? "outlined" : "text"}
-                    // className={props.filter === "active" ? "active-filter" : ""}
                     onClick={onActiveClickHandler}>
                     Active
                 </Button>

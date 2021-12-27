@@ -4,7 +4,6 @@ import TodoList from "./components/TodoList";
 import {AddItemForm} from "./components/AddItemForm";
 import {
     changeTodoListFilterAC,
-
     changeTodoListTitleTC, createTodoListTC, FilterValuesType, loadTodoListsTC,
     removeTodoListTC, TodolistDomainType,
 } from "./components/state/todolists-reducer";
@@ -13,12 +12,21 @@ import {
     changeTaskTitleTC,
     removeTaskTC, updateTasksStatusTC,
 } from "./components/state/tasks-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./components/state/store";
-import {AppBar, Button, Container, Grid, IconButton, LinearProgress, Paper, Toolbar, Typography} from "@mui/material";
+import {useDispatch} from "react-redux";
+import {useAppReducer} from "./components/state/store";
+import AppBar from '@mui/material/AppBar';
+import Typography from '@mui/material/Typography';
+import Toolbar from '@mui/material/Toolbar';
+import Paper from '@mui/material/Paper';
+import LinearProgress from '@mui/material/LinearProgress';
+import IconButton from '@mui/material/IconButton';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 import {Menu} from "@mui/icons-material";
 import {TaskStatuses, TaskType} from "./components/api/todolists-api";
 import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackBar";
+import {InitialStateType} from "./components/app/app-reducer";
 
 
 export type TasksStateType = {
@@ -27,11 +35,14 @@ export type TasksStateType = {
 
 function AppWithRedux() {
 
-    //useDispatch используется для то чтобы функция dispatch то что нам нужно
     const dispatch = useDispatch()
 
-    const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
-    const tasksObj = useSelector<AppRootStateType, TasksStateType>(state => {return state.tasks})
+    const todoLists = useAppReducer<TodolistDomainType[]>(state => state.todoLists)
+    const tasksObj = useAppReducer<TasksStateType>(state => {
+        return state.tasks
+    })
+
+    const {status, error} = useAppReducer<InitialStateType>(state => state.app)
 
     useEffect(() => {
         dispatch(loadTodoListsTC)
@@ -89,7 +100,7 @@ function AppWithRedux() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
-                <LinearProgress/>
+                {status === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: "20px"}}>
