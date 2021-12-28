@@ -14,6 +14,8 @@ type getTasksListResponse = {
     error: string| null
     totalCount: number
     items: TaskType[]
+    resultCode: number
+    messages: string[]
 }
 
 const instance = axios.create({

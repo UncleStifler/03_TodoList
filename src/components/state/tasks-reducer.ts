@@ -4,7 +4,7 @@ import {tasksListsAPI} from "../api/tasks-api";
 import {AppRootStateType} from "./store";
 import {TasksStateType} from "../../AppWithRedux";
 import {Dispatch} from "redux";
-import {setAppStatusAC} from "../app/app-reducer";
+import {setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
 
 
 const initialState: TasksStateType = {}
@@ -139,9 +139,14 @@ export const addTaskTC = (todoListId: string, title: string) => {
         dispatch(setAppStatusAC('loading'))
         tasksListsAPI.createTask(todoListId, title)
             .then((res) => {
-                let task = res.data.data.item
-                dispatch(addTaskAC(task))
-                dispatch(setAppStatusAC('succeeded'))
+                if (res.data.resultCode === 0) {
+                    dispatch(addTaskAC(res.data.data.item))
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    dispatch(setAppErrorAC(res.data.messages.length ?
+                        res.data.messages[0] : 'some error'))
+                    dispatch(setAppStatusAC('failed'))
+                }
             })
     }
 }

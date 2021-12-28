@@ -2,12 +2,13 @@ import {todoListsAPI, TodolistType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
 import {loadTasksTC} from "./tasks-reducer";
-import {setAppStatusAC} from "../app/app-reducer";
+import {RequestStatusType, setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
+    // entityStatus: RequestStatusType
 }
 
 const initialState: TodolistDomainType[] = []
@@ -110,9 +111,14 @@ export const createTodoListTC = (title: string) => {
         dispatch(setAppStatusAC('loading'))
         todoListsAPI.createTodoList(title)
             .then((res) => {
-                let newTodo = res.data.data.item
-                dispatch(addTodoListAC(newTodo))
-                dispatch(setAppStatusAC('succeeded'))
+                if (res.data.resultCode === 0 ) {
+                    dispatch(addTodoListAC(res.data.data.item))
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    dispatch(setAppErrorAC(res.data.messages.length ?
+                        res.data.messages[0] : 'some error'))
+                    dispatch(setAppStatusAC('failed'))
+                }
             })
     }
 }
