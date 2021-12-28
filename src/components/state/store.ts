@@ -5,7 +5,6 @@ import thunk from "redux-thunk";
 import {appReducer} from "../app/app-reducer";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
 
-
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
 const rootReducer = combineReducers({

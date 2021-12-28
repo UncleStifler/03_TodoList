@@ -46,41 +46,41 @@ function AppWithRedux() {
 
     useEffect(() => {
         dispatch(loadTodoListsTC)
-    }, [])
+    }, [dispatch])
 
     const addTask = useCallback((title: string, todoListId: string) => {
         dispatch(addTaskTC(todoListId, title))
-    }, [])
+    }, [dispatch])
 
     const removeTask = useCallback((idTasks: string, todolistId: string) => {
         dispatch(removeTaskTC(idTasks, todolistId))
-    }, [])
+    }, [dispatch])
 
     const changeFilter = useCallback((value: FilterValuesType, todoListId: string) => {
         const action = changeTodoListFilterAC(value, todoListId)
         dispatch(action)
-    }, [])
+    }, [dispatch])
 
     const changeStatusCheckbox = useCallback((tasksID: string, status: TaskStatuses, todoListId: string) => {
         dispatch(updateTasksStatusTC(todoListId, tasksID, status))
-    }, [])
+    }, [dispatch])
 
     const removeTodoList = useCallback((todoListId: string) => {
         dispatch(removeTodoListTC(todoListId))
-    }, [])
+    }, [dispatch])
 
     const addTodoList = useCallback((title: string) => {
         dispatch(createTodoListTC(title))
-    }, [])
+    }, [dispatch])
 
     const changeTaskTitle = useCallback((id: string, newValue: string, todoListId: string) => {
         dispatch(changeTaskTitleTC(id, newValue, todoListId))
-    }, [])
+    }, [dispatch])
 
     const changeTodoListTitle = useCallback((todoListId: string, newTodoListTitle: string) => {
         const thunk = changeTodoListTitleTC(todoListId, newTodoListTitle)
         dispatch(thunk)
-    }, [])
+    }, [dispatch])
 
     return (
         <div className="App">

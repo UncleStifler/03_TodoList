@@ -1,5 +1,5 @@
 import {AddTodoListActionType, RemoveTodoListActionType, SetTodoListsActionType} from "./todolists-reducer";
-import {TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType} from "../api/todolists-api";
+import {TaskStatuses, TaskType, UpdateTaskModelType} from "../api/todolists-api";
 import {tasksListsAPI} from "../api/tasks-api";
 import {AppRootStateType} from "./store";
 import {TasksStateType} from "../../AppWithRedux";
@@ -12,47 +12,47 @@ const initialState: TasksStateType = {}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionTypes): TasksStateType => {
     switch (action.type) {
-        case "LOAD-TASKS": {
+        case "TASKS/LOAD-TASKS": {
             const stateCopy = {...state}
             stateCopy[action.todoListId] = action.arrayTasks
             return stateCopy
         }
 
-        case "REMOVE-TASK": {
+        case "TASKS/REMOVE-TASK": {
             const stateCopy = {...state}
             const tasks = state[action.todoListId]
             stateCopy[action.todoListId] = tasks.filter(t => t.id !== action.taskId)
             return stateCopy
         }
-        case "ADD-TASK": {
+        case "TASKS/ADD-TASK": {
             const stateCopy = {...state}
             const tasks = stateCopy[action.task.todoListId]
             stateCopy[action.task.todoListId] = [action.task, ...tasks]
             return {...stateCopy}
         }
-        case "CHANGE-CHECKBOX-STATUS": {
+        case "TASKS/CHANGE-CHECKBOX-STATUS": {
             let todolistTasks = state[action.todoListId];
             state[action.todoListId] = todolistTasks
                 .map(t => t.id === action.taskId ? {...t, status: action.status} : t);
             return ({...state});
         }
-        case "CHANGE-TASK-TITLE": {
+        case "TASKS/CHANGE-TASK-TITLE": {
             let tasks = state[action.todoListId]
             state[action.todoListId] = tasks
                 .map(t => t.id === action.taskId ? {...t, title: action.title} : t)
             return ({...state})
         }
-        case "ADD-TODOLIST": {
+        case "TODOLIST/ADD-TODOLIST": {
             const stateCopy = {...state}
             stateCopy[action.todolistId] = []
             return stateCopy
         }
-        case "REMOVE-TODOLIST": {
+        case "TODOLIST/REMOVE-TODOLIST": {
             const stateCopy = {...state}
             delete stateCopy[action.id]
             return stateCopy
         }
-        case "SET-TODOLIST": {
+        case "TODOLIST/SET-TODOLIST": {
             const copyState = {...state}
             action.todoListsArray.forEach(tl => {
                 copyState[tl.id] = []
@@ -67,26 +67,26 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
 export type loadTasksActionType = ReturnType<typeof getTasksAC>
 
 export const getTasksAC = (todoListId: string, arrayTasks: TaskType[]) => {
-    return {type: 'LOAD-TASKS', todoListId, arrayTasks} as const
+    return {type: 'TASKS/LOAD-TASKS', todoListId, arrayTasks} as const
 }
 
 export const removeTaskAC = (taskId: string, todoListId: string) => {
     return {
-        type: "REMOVE-TASK",
+        type: "TASKS/REMOVE-TASK",
         taskId: taskId,
         todoListId: todoListId
     } as const
 }
 export const addTaskAC = (task: TaskType) => {
     return {
-        type: "ADD-TASK",
+        type: "TASKS/ADD-TASK",
         task
     } as const
 }
 
 export const changeStatusCheckboxAC = (taskId: string, status: TaskStatuses, todoListId: string) => {
     return {
-        type: "CHANGE-CHECKBOX-STATUS",
+        type: "TASKS/CHANGE-CHECKBOX-STATUS",
         status,
         todoListId,
         taskId,
@@ -95,7 +95,7 @@ export const changeStatusCheckboxAC = (taskId: string, status: TaskStatuses, tod
 
 export const changeTaskTitleAC = (taskId: string, title: string, todoListId: string) => {
     return {
-        type: "CHANGE-TASK-TITLE",
+        type: "TASKS/CHANGE-TASK-TITLE",
         title,
         todoListId,
         taskId,
