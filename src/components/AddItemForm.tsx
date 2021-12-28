@@ -1,9 +1,11 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {AddBox} from "@mui/icons-material";
 import {IconButton, TextField} from "@mui/material";
+import {RequestStatusType} from "./app/app-reducer";
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
@@ -22,7 +24,6 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
             setNewTaskTitle("")
         }
     }
-
     const enterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (error !== null) {
             setError(null)
@@ -37,6 +38,7 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     return (
         <div>
             <TextField
+                disabled={props.disabled}
                 placeholder='Add new task'
                 size="small"
                 autoFocus
@@ -47,12 +49,11 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
                 helperText={error}
             />
             <IconButton
+                disabled={props.disabled}
                 color='primary'
-
                 onClick={addTaskHandler}>
                 <AddBox/>
             </IconButton>
-            {/*{error && <div className={"error-message"}>Title required</div>}*/}
         </div>
     );
 });

@@ -26,7 +26,7 @@ import Container from '@mui/material/Container';
 import {Menu} from "@mui/icons-material";
 import {TaskStatuses, TaskType} from "./components/api/todolists-api";
 import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackBar";
-import {InitialStateType} from "./components/app/app-reducer";
+import { RequestStatusType} from "./components/app/app-reducer";
 
 
 export type TasksStateType = {
@@ -38,11 +38,10 @@ function AppWithRedux() {
     const dispatch = useDispatch()
 
     const todoLists = useAppReducer<TodolistDomainType[]>(state => state.todoLists)
-    const tasksObj = useAppReducer<TasksStateType>(state => {
-        return state.tasks
-    })
+    // const disabledStatus = useAppReducer<RequestStatusType>(state => state.todoLists.entityStatus)
+    const tasksObj = useAppReducer<TasksStateType>(state => state.tasks)
+    const status = useAppReducer<RequestStatusType>(state => state.app.status)
 
-    const {status, error} = useAppReducer<InitialStateType>(state => state.app)
 
     useEffect(() => {
         dispatch(loadTodoListsTC)
@@ -119,6 +118,7 @@ function AppWithRedux() {
                                             key={t.id}
                                             todoListId={t.id}
                                             todoListTitle={t.title}
+                                            entityStatus={t.entityStatus}
                                             tasks={tasksForTodolist}
                                             removeTask={removeTask}
                                             changeFilter={changeFilter}

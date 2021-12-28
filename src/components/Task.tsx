@@ -4,6 +4,7 @@ import {Delete} from "@mui/icons-material";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {RequestStatusType} from "./app/app-reducer";
 
 type TaskPropsType = {
     task: TaskType
@@ -11,6 +12,7 @@ type TaskPropsType = {
     removeTask: (idTasks: string, todolistId: string) => void
     changeStatusCheckbox: (tasksID: string, status: TaskStatuses, todoListId: string) => void
     changeTaskTitle: (id: string, newValue: string, todoListId: string) => void
+    entityStatus: RequestStatusType
 }
 export const Task = React.memo((props: TaskPropsType) => {
 
@@ -41,6 +43,7 @@ export const Task = React.memo((props: TaskPropsType) => {
                 title={task.title}
                 onChange={onChangeTitleHandler}/>
             <IconButton
+                disabled={props.entityStatus === 'loading'}
                 style={{marginLeft: "5px"}}
                 onClick={onRemoveHandler}>
                 <Delete fontSize={"small"}/>

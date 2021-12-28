@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {FilterValuesType} from "./state/todolists-reducer";
-
+import {RequestStatusType} from "./app/app-reducer";
 
 export type TodoListType = {
     todoListId: string
@@ -22,15 +22,17 @@ export type TodoListType = {
     changeTodoListTitle: (todoListId: string, newTodoListTitle: string) => void
     filter: FilterValuesType
     removeTodoList: (todoListId: string) => void
-
+    entityStatus: RequestStatusType
 }
 
 export const TodoList = React.memo(function (props: TodoListType) {
 
-    const {changeFilter, todoListId,
+    const {
+        changeFilter, todoListId,
         removeTodoList, addTask, changeTodoListTitle,
         tasks, filter, todoListTitle, removeTask,
-        changeStatusCheckbox, changeTaskTitle} = props
+        changeStatusCheckbox, changeTaskTitle, entityStatus
+    } = props
 
     const onAllClickHandler = useCallback(() => {
         changeFilter("all", todoListId)
@@ -72,24 +74,27 @@ export const TodoList = React.memo(function (props: TodoListType) {
                         title={todoListTitle}
                         onChange={changeTodoListTitleHandler}/>
                     <IconButton
-                        onClick={removeTodoListHandler}>
+                        onClick={removeTodoListHandler}
+                        disabled={entityStatus === 'loading'}>
                         <Delete/>
                     </IconButton>
                 </h3>
             </Link>
             <AddItemForm
-                addItem={addTaskForAddItem}/>
+                addItem={addTaskForAddItem}
+                disabled={entityStatus === 'loading'}
+            />
             <ul>
-                {
-                    tasksForTodolist && tasksForTodolist.map(t => <Task
+                {tasksForTodolist && tasksForTodolist.map(t =>
+                    <Task
                         key={t.id}
                         todoListId={todoListId}
                         removeTask={removeTask}
                         changeStatusCheckbox={changeStatusCheckbox}
                         changeTaskTitle={changeTaskTitle}
                         task={t}
-                    />)
-                }
+                        entityStatus={entityStatus}
+                    />)}
             </ul>
             <div>
                 <Button

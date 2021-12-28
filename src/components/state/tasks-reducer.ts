@@ -1,10 +1,14 @@
-import {AddTodoListActionType, RemoveTodoListActionType, SetTodoListsActionType} from "./todolists-reducer";
+import {
+    AddTodoListActionType,
+    RemoveTodoListActionType,
+    SetTodoListsActionType
+} from "./todolists-reducer";
 import {TaskStatuses, TaskType, UpdateTaskModelType} from "../api/todolists-api";
 import {tasksListsAPI} from "../api/tasks-api";
 import {AppRootStateType} from "./store";
 import {TasksStateType} from "../../AppWithRedux";
 import {Dispatch} from "redux";
-import {setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
+import { setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
 
 
 const initialState: TasksStateType = {}
@@ -102,6 +106,11 @@ export const changeTaskTitleAC = (taskId: string, title: string, todoListId: str
     } as const
 }
 
+// export const changeTaskEntityStatusAC = (taskId: string, entityTaskStatus: RequestStatusType) => ({
+//     type: "TASK/CHANGE-TASK-ENTITY-STATUS",
+//     taskId, entityTaskStatus
+// } as const)
+
 type ActionTypes = RemoveTaskActionType | AddTaskActionType |
     ChangeFilterStatusType | ChangeTaskTitleType | AddTodoListActionType |
     RemoveTodoListActionType | loadTasksActionType | SetTodoListsActionType
@@ -110,7 +119,7 @@ export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 export type AddTaskActionType = ReturnType<typeof addTaskAC>
 export type ChangeFilterStatusType = ReturnType<typeof changeStatusCheckboxAC>
 export type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
-
+// export type changeTaskEntityActionType = ReturnType<typeof changeTaskEntityStatusAC>
 
 export const loadTasksTC = (todoListId: string) => {
     return (dispatch: Dispatch) => {
@@ -126,6 +135,7 @@ export const loadTasksTC = (todoListId: string) => {
 export const removeTaskTC = (taskId: string, todoListId: string) => {
     return (dispatch: Dispatch) => {
         dispatch(setAppStatusAC('loading'))
+        // dispatch(changeTodolistEntityStatusAC(taskId,'loading'))
         tasksListsAPI.deleteTask(todoListId, taskId)
             .then(() => {
                 dispatch(removeTaskAC(taskId, todoListId))
