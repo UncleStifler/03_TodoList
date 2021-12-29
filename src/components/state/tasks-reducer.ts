@@ -8,7 +8,8 @@ import {tasksListsAPI} from "../api/tasks-api";
 import {AppRootStateType} from "./store";
 import {TasksStateType} from "../../AppWithRedux";
 import {Dispatch} from "redux";
-import { setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
+import {setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
+import {AxiosError} from "axios";
 
 
 const initialState: TasksStateType = {}
@@ -151,12 +152,16 @@ export const addTaskTC = (todoListId: string, title: string) => {
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     dispatch(addTaskAC(res.data.data.item))
-                    dispatch(setAppStatusAC('succeeded'))
                 } else {
                     dispatch(setAppErrorAC(res.data.messages.length ?
                         res.data.messages[0] : 'some error'))
-                    dispatch(setAppStatusAC('failed'))
                 }
+            })
+            .catch((error: AxiosError) => {
+                dispatch(setAppErrorAC(error.message))
+            })
+            .finally(() => {
+                dispatch(setAppStatusAC('idle'))
             })
     }
 }
@@ -189,9 +194,7 @@ export const updateTasksStatusTC = (todoListId: string, taskId: string, status: 
 export const changeTaskTitleTC = (taskId: string, title: string, todoListId: string) => {
     return (dispatch: Dispatch, getState: () => AppRootStateType) => {
         const state = getState()
-
         const currentTask = state.tasks[todoListId].find((t => t.id === taskId))
-
         if (currentTask) {
             const model: UpdateTaskModelType = {
                 title: title,
@@ -205,6 +208,11 @@ export const changeTaskTitleTC = (taskId: string, title: string, todoListId: str
             tasksListsAPI.updateTask(todoListId, taskId, model)
                 .then(() => {
                     dispatch(changeTaskTitleAC(taskId, title, todoListId))
+                })
+                .catch((error: AxiosError) => {
+                    dispatch(setAppErrorAC(error.message))
+                })
+                .finally(() => {
                     dispatch(setAppStatusAC('succeeded'))
                 })
         }

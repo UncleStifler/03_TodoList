@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
 import {loadTasksTC} from "./tasks-reducer";
 import {RequestStatusType, setAppErrorAC, setAppStatusAC} from "../app/app-reducer";
+import {AxiosError} from "axios";
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -102,7 +103,7 @@ export const loadTodoListsTC = (dispatch: Dispatch<any>, getState: () => AppRoot
 export const removeTodoListTC = (todoListId: string) => {
     return (dispatch: Dispatch) => {
         dispatch(setAppStatusAC('loading'))
-        dispatch(changeTodolistEntityStatusAC(todoListId,'loading'))
+        dispatch(changeTodolistEntityStatusAC(todoListId, 'loading'))
         todoListsAPI.deleteTodoList(todoListId)
             .then((res) => {
                 if (res.data.resultCode === 0) {
@@ -124,12 +125,16 @@ export const createTodoListTC = (title: string) => {
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     dispatch(addTodoListAC(res.data.data.item))
-                    dispatch(setAppStatusAC('succeeded'))
                 } else {
                     dispatch(setAppErrorAC(res.data.messages.length ?
                         res.data.messages[0] : 'some error'))
-                    dispatch(setAppStatusAC('failed'))
                 }
+            })
+            .catch((error: AxiosError) => {
+                dispatch(setAppErrorAC(error.message))
+            })
+            .finally(() => {
+                dispatch(setAppStatusAC('failed'))
             })
     }
 }
@@ -140,6 +145,11 @@ export const changeTodoListTitleTC = (todoListId: string, title: string) => {
         todoListsAPI.updateTodoList(todoListId, title)
             .then(() => {
                 dispatch(changeTodoListTitleAC(todoListId, title))
+            })
+            .catch((error: AxiosError) => {
+                dispatch(setAppErrorAC(error.message))
+            })
+            .finally(() => {
                 dispatch(setAppStatusAC('succeeded'))
             })
     }
