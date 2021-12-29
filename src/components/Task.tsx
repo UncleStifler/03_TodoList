@@ -23,8 +23,10 @@ export const Task = React.memo((props: TaskPropsType) => {
 
     // const entityTaskStatus = useAppReducer<TasksStateType>(state => state.tasks)
 
-    const {task, todoListId, changeStatusCheckbox, changeTaskTitle, removeTask,
-        entityTaskStatus} = props
+    const {
+        task, todoListId, changeStatusCheckbox, changeTaskTitle, removeTask,
+        entityTaskStatus
+    } = props
 
     const onRemoveHandler = useCallback(() => removeTask(task.id, todoListId),
         [task.id, todoListId, removeTask])
@@ -43,12 +45,13 @@ export const Task = React.memo((props: TaskPropsType) => {
         <li key={task.id}
             className={`commonClassName ${task.status === TaskStatuses.Completed ? "is-done" : ""}`}>
             <Checkbox
-                // type="checkbox"
+                disabled={entityTaskStatus === 'loading'}
                 color="success"
                 onChange={onChangeHandlerCheckbox}
                 checked={task.status === TaskStatuses.Completed}
             />
             <EditableSpan
+                disabled={entityTaskStatus === 'loading'}
                 title={task.title}
                 onChange={onChangeTitleHandler}/>
             <IconButton

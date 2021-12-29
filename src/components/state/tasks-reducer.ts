@@ -197,10 +197,12 @@ export const updateTasksStatusTC = (todoListId: string, taskId: string, status: 
                 description: currentTask.description,
             }
             dispatch(setAppStatusAC('loading'))
+            dispatch(changeTaskEntityStatusAC(taskId,todoListId,'loading'))
             tasksListsAPI.updateTask(todoListId, taskId, model)
                 .then(() => {
                     dispatch(changeStatusCheckboxAC(taskId, status, todoListId))
                     dispatch(setAppStatusAC('succeeded'))
+                    dispatch(changeTaskEntityStatusAC(taskId,todoListId,'idle'))
                 })
         }
     }
@@ -219,6 +221,7 @@ export const changeTaskTitleTC = (taskId: string, title: string, todoListId: str
                 description: currentTask.description,
             }
             dispatch(setAppStatusAC('loading'))
+            dispatch(changeTaskEntityStatusAC(taskId,todoListId,'loading'))
             tasksListsAPI.updateTask(todoListId, taskId, model)
                 .then(() => {
                     dispatch(changeTaskTitleAC(taskId, title, todoListId))
@@ -228,6 +231,7 @@ export const changeTaskTitleTC = (taskId: string, title: string, todoListId: str
                 })
                 .finally(() => {
                     dispatch(setAppStatusAC('succeeded'))
+                    dispatch(changeTaskEntityStatusAC(taskId,todoListId,'idle'))
                 })
         }
     }
