@@ -88,7 +88,7 @@ export const changeTodolistEntityStatusAC = (todoListId: string, entityStatus: R
     todoListId, entityStatus
 } as const)
 
-export const loadTodoListsTC = (dispatch: Dispatch<any>, getState: () => AppRootStateType): void => {
+export const loadTodoListsTC = (dispatch: Dispatch<any>): void => {
     dispatch(setAppStatusAC('loading'))
     todoListsAPI.getTodoLists()
         .then((res) => {
@@ -100,22 +100,10 @@ export const loadTodoListsTC = (dispatch: Dispatch<any>, getState: () => AppRoot
         })
 }
 
-export const removeTodoListTC = (todoListId: string) => {
-    return (dispatch: Dispatch) => {
-        dispatch(setAppStatusAC('loading'))
-        dispatch(changeTodolistEntityStatusAC(todoListId, 'loading'))
-        todoListsAPI.deleteTodoList(todoListId)
-            .then((res) => {
-                if (res.data.resultCode === 0) {
-                    dispatch(removeTodoListAC(todoListId))
-                    dispatch(setAppStatusAC('succeeded'))
-                } else {
-                    dispatch(setAppErrorAC(res.data.messages.length ?
-                        res.data.messages[0] : 'some error'))
-                    dispatch(setAppStatusAC('failed'))
-                }
-            })
-    }
+enum ResultCodes {
+    success = 0,
+    error = 1,
+    captcha = 10
 }
 
 export const createTodoListTC = (title: string) => {
@@ -123,7 +111,7 @@ export const createTodoListTC = (title: string) => {
         dispatch(setAppStatusAC('loading'))
         todoListsAPI.createTodoList(title)
             .then((res) => {
-                if (res.data.resultCode === 0) {
+                if (res.data.resultCode === ResultCodes.success) {
                     dispatch(addTodoListAC(res.data.data.item))
                 } else {
                     dispatch(setAppErrorAC(res.data.messages.length ?
@@ -135,6 +123,28 @@ export const createTodoListTC = (title: string) => {
             })
             .finally(() => {
                 dispatch(setAppStatusAC('failed'))
+            })
+    }
+}
+
+export const removeTodoListTC = (todoListId: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        dispatch(changeTodolistEntityStatusAC(todoListId, 'loading'))
+        todoListsAPI.deleteTodoList(todoListId)
+            .then((res) => {
+                if (res.data.resultCode === ResultCodes.success) {
+                    dispatch(removeTodoListAC(todoListId))
+                } else {
+                    dispatch(setAppErrorAC(res.data.messages.length ?
+                        res.data.messages[0] : 'some error'))
+                }
+            })
+            .catch((error: AxiosError) => {
+                dispatch(setAppErrorAC(error.message))
+            })
+            .finally(() => {
+                dispatch(setAppStatusAC('idle'))
             })
     }
 }

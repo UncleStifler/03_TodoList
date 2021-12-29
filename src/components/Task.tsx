@@ -5,6 +5,8 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {RequestStatusType} from "./app/app-reducer";
+import {useAppReducer} from "./state/store";
+import {TasksStateType} from "./state/tasks-reducer";
 
 type TaskPropsType = {
     task: TaskType
@@ -13,10 +15,16 @@ type TaskPropsType = {
     changeStatusCheckbox: (tasksID: string, status: TaskStatuses, todoListId: string) => void
     changeTaskTitle: (id: string, newValue: string, todoListId: string) => void
     entityStatus: RequestStatusType
+    entityTaskStatus: RequestStatusType
+
+
 }
 export const Task = React.memo((props: TaskPropsType) => {
 
-    const {task, todoListId, changeStatusCheckbox, changeTaskTitle, removeTask} = props
+    // const entityTaskStatus = useAppReducer<TasksStateType>(state => state.tasks)
+
+    const {task, todoListId, changeStatusCheckbox, changeTaskTitle, removeTask,
+        entityTaskStatus} = props
 
     const onRemoveHandler = useCallback(() => removeTask(task.id, todoListId),
         [task.id, todoListId, removeTask])
@@ -38,12 +46,13 @@ export const Task = React.memo((props: TaskPropsType) => {
                 // type="checkbox"
                 color="success"
                 onChange={onChangeHandlerCheckbox}
-                checked={task.status === TaskStatuses.Completed}/>
+                checked={task.status === TaskStatuses.Completed}
+            />
             <EditableSpan
                 title={task.title}
                 onChange={onChangeTitleHandler}/>
             <IconButton
-                disabled={props.entityStatus === 'loading'}
+                disabled={entityTaskStatus === 'loading'}
                 style={{marginLeft: "5px"}}
                 onClick={onRemoveHandler}>
                 <Delete fontSize={"small"}/>

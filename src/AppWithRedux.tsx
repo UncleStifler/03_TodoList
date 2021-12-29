@@ -10,7 +10,7 @@ import {
 import {
     addTaskTC,
     changeTaskTitleTC,
-    removeTaskTC, updateTasksStatusTC,
+    removeTaskTC, TasksStateType, updateTasksStatusTC,
 } from "./components/state/tasks-reducer";
 import {useDispatch} from "react-redux";
 import {useAppReducer} from "./components/state/store";
@@ -24,14 +24,12 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import {Menu} from "@mui/icons-material";
-import {TaskStatuses, TaskType} from "./components/api/todolists-api";
+import {TaskStatuses} from "./components/api/todolists-api";
 import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackBar";
 import { RequestStatusType} from "./components/app/app-reducer";
 
 
-export type TasksStateType = {
-    [key: string]: TaskType[]
-}
+
 
 function AppWithRedux() {
 

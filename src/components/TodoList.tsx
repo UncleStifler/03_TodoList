@@ -9,11 +9,12 @@ import Link from "@mui/material/Link";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {FilterValuesType} from "./state/todolists-reducer";
 import {RequestStatusType} from "./app/app-reducer";
+import {TasksDomain_Type, TasksStateType} from "./state/tasks-reducer";
 
 export type TodoListType = {
     todoListId: string
     todoListTitle: string
-    tasks: TaskType[]
+    tasks: TasksDomain_Type[]
     removeTask: (idTasks: string, todolistId: string) => void
     changeFilter: (value: FilterValuesType, todoListId: string) => void
     addTask: (title: string, todolistId: string) => void
@@ -94,6 +95,7 @@ export const TodoList = React.memo(function (props: TodoListType) {
                         changeTaskTitle={changeTaskTitle}
                         task={t}
                         entityStatus={entityStatus}
+                        entityTaskStatus={t.entityTaskStatus}
                     />)}
             </ul>
             <div>
