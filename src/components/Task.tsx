@@ -5,8 +5,6 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {RequestStatusType} from "./app/app-reducer";
-import {useAppReducer} from "./state/store";
-import {TasksStateType} from "./state/tasks-reducer";
 
 type TaskPropsType = {
     task: TaskType

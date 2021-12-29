@@ -1,7 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {AddBox} from "@mui/icons-material";
 import {IconButton, TextField} from "@mui/material";
-import {RequestStatusType} from "./app/app-reducer";
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void

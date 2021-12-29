@@ -6,10 +6,10 @@ import {Delete} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
-import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {TaskStatuses} from "./api/todolists-api";
 import {FilterValuesType} from "./state/todolists-reducer";
 import {RequestStatusType} from "./app/app-reducer";
-import {TasksDomain_Type, TasksStateType} from "./state/tasks-reducer";
+import {TasksDomain_Type} from "./state/tasks-reducer";
 
 export type TodoListType = {
     todoListId: string
