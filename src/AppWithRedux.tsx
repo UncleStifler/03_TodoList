@@ -26,58 +26,13 @@ import Container from '@mui/material/Container';
 import {Menu} from "@mui/icons-material";
 import {TaskStatuses} from "./components/api/todolists-api";
 import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackBar";
-import { RequestStatusType} from "./components/app/app-reducer";
-
-
-
+import {RequestStatusType} from "./components/app/app-reducer";
+import {Login} from "./features/Login/Login";
+import {Routes, Route} from "react-router-dom"
+import TodoListsContainer from "./features/Todolist/TodoListsContainer";
 
 function AppWithRedux() {
-
-    const dispatch = useDispatch()
-
-    const todoLists = useAppReducer<TodolistDomainType[]>(state => state.todoLists)
-    // const disabledStatus = useAppReducer<RequestStatusType>(state => state.todoLists.entityStatus)
-    const tasksObj = useAppReducer<TasksStateType>(state => state.tasks)
     const status = useAppReducer<RequestStatusType>(state => state.app.status)
-
-
-    useEffect(() => {
-        dispatch(loadTodoListsTC)
-    }, [dispatch])
-
-    const addTask = useCallback((title: string, todoListId: string) => {
-        dispatch(addTaskTC(todoListId, title))
-    }, [dispatch])
-
-    const removeTask = useCallback((idTasks: string, todolistId: string) => {
-        dispatch(removeTaskTC(idTasks, todolistId))
-    }, [dispatch])
-
-    const changeFilter = useCallback((value: FilterValuesType, todoListId: string) => {
-        const action = changeTodoListFilterAC(value, todoListId)
-        dispatch(action)
-    }, [dispatch])
-
-    const changeStatusCheckbox = useCallback((tasksID: string, status: TaskStatuses, todoListId: string) => {
-        dispatch(updateTasksStatusTC(todoListId, tasksID, status))
-    }, [dispatch])
-
-    const removeTodoList = useCallback((todoListId: string) => {
-        dispatch(removeTodoListTC(todoListId))
-    }, [dispatch])
-
-    const addTodoList = useCallback((title: string) => {
-        dispatch(createTodoListTC(title))
-    }, [dispatch])
-
-    const changeTaskTitle = useCallback((id: string, newValue: string, todoListId: string) => {
-        dispatch(changeTaskTitleTC(id, newValue, todoListId))
-    }, [dispatch])
-
-    const changeTodoListTitle = useCallback((todoListId: string, newTodoListTitle: string) => {
-        const thunk = changeTodoListTitleTC(todoListId, newTodoListTitle)
-        dispatch(thunk)
-    }, [dispatch])
 
     return (
         <div className="App">
@@ -100,38 +55,10 @@ function AppWithRedux() {
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
-                <Grid container style={{padding: "20px"}}>
-                    <AddItemForm addItem={addTodoList}/>
-                </Grid>
-                <Grid container spacing={5}>
-                    {
-                        todoLists.map(t => {
-                            let tasksForTodolist = tasksObj[t.id]
-                            return (
-                                <Grid item key={t.id}>
-                                    <Paper
-                                        elevation={3}
-                                        style={{padding: "15px"}}>
-                                        <TodoList
-                                            key={t.id}
-                                            todoListId={t.id}
-                                            todoListTitle={t.title}
-                                            entityStatus={t.entityStatus}
-                                            tasks={tasksForTodolist}
-                                            removeTask={removeTask}
-                                            changeFilter={changeFilter}
-                                            addTask={addTask}
-                                            changeStatusCheckbox={changeStatusCheckbox}
-                                            filter={t.filter}
-                                            removeTodoList={removeTodoList}
-                                            changeTaskTitle={changeTaskTitle}
-                                            changeTodoListTitle={changeTodoListTitle}
-                                        />
-                                    </Paper>
-                                </Grid>)
-                        })
-                    }
-                </Grid>
+                <Routes>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/" element={<TodoListsContainer/>}/>
+                </Routes>
             </Container>
         </div>
     );
