@@ -14,7 +14,6 @@ import {
     TasksStateType,
     updateTasksStatusTC
 } from "../../components/state/tasks-reducer";
-import {RequestStatusType} from "../../components/app/app-reducer";
 import {TaskStatuses} from "../../components/api/todolists-api";
 import Grid from "@mui/material/Grid";
 import {AddItemForm} from "../../components/AddItemForm";
@@ -26,10 +25,7 @@ const TodoListsContainer = () => {
     const dispatch = useDispatch()
 
     const todoLists = useAppReducer<TodolistDomainType[]>(state => state.todoLists)
-    // const disabledStatus = useAppReducer<RequestStatusType>(state => state.todoLists.entityStatus)
     const tasksObj = useAppReducer<TasksStateType>(state => state.tasks)
-
-
 
     useEffect(() => {
         dispatch(loadTodoListsTC)
