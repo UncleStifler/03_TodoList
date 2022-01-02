@@ -23,6 +23,7 @@ function AppWithRedux() {
             <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
+
                     <IconButton
                         size="large"
                         edge="start"
