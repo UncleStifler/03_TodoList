@@ -24,6 +24,7 @@ const TodoListsContainer = () => {
 
     const dispatch = useDispatch()
 
+
     const todoLists = useAppReducer<TodolistDomainType[]>(state => state.todoLists)
     const tasksObj = useAppReducer<TasksStateType>(state => state.tasks)
 
