@@ -12,10 +12,11 @@ import {Menu} from "@mui/icons-material";
 import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackBar";
 import {RequestStatusType} from "./components/app/app-reducer";
 import {Login} from "./features/Login/Login";
-import {Routes, Route} from "react-router-dom"
+import {Routes, Route, Navigate} from "react-router-dom"
 import TodoListsContainer from "./features/Todolist/TodoListsContainer";
+import Page404 from "./features/Login/Page404";
 
-function AppWithRedux() {
+function App() {
     const status = useAppReducer<RequestStatusType>(state => state.app.status)
 
     return (
@@ -23,7 +24,6 @@ function AppWithRedux() {
             <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
-
                     <IconButton
                         size="large"
                         edge="start"
@@ -43,10 +43,12 @@ function AppWithRedux() {
                 <Routes>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/" element={<TodoListsContainer/>}/>
+                    <Route path="/404" element={<Page404/>}/>
+                    <Route path="*" element={<Navigate to="/404"/>}/>
                 </Routes>
             </Container>
         </div>
     );
 }
 
-export default AppWithRedux;
+export default App;
