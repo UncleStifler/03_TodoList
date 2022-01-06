@@ -7,10 +7,10 @@ export type TodolistType = {
     order: number
 }
 
-export type ResponseType<param = {}> = {
+export type ResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
-    data: param
+    data: D
 }
 
 export enum TaskStatuses {

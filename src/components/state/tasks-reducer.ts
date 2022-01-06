@@ -1,6 +1,6 @@
 import {
     AddTodoListActionType,
-    RemoveTodoListActionType,
+    RemoveTodoListActionType, ResultCodes,
     SetTodoListsActionType
 } from "./todolists-reducer";
 import {TaskStatuses, TaskType, UpdateTaskModelType} from "../api/todolists-api";
@@ -151,12 +151,6 @@ export const removeTaskTC = (taskId: string, todoListId: string) => {
                 dispatch(setAppStatusAC('succeeded'))
             })
     }
-}
-
-enum ResultCodes {
-    success = 0,
-    error = 1,
-    captcha = 10
 }
 
 export const addTaskTC = (todoListId: string, title: string) => {

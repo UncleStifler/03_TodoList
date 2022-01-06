@@ -12,13 +12,13 @@ import {Menu} from "@mui/icons-material";
 import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackBar";
 import {RequestStatusType} from "./components/app/app-reducer";
 import {Login} from "./features/Login/Login";
-import {Routes, Route, Navigate} from "react-router-dom"
+import {Routes, Route, Navigate, useNavigate} from "react-router-dom"
 import TodoListsContainer from "./features/Todolist/TodoListsContainer";
 import Page404 from "./features/Login/Page404";
 
 function App() {
     const status = useAppReducer<RequestStatusType>(state => state.app.status)
-
+    const navigate = useNavigate()
     return (
         <div className="App">
             <ErrorSnackbar/>
@@ -32,10 +32,21 @@ function App() {
                         sx={{mr: 2}}>
                         <Menu/>
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                    <Typography
+                        onClick={() => navigate("/")}
+                        style={{cursor: "pointer"}}
+                        variant="h6"
+                        component="div"
+                        sx={{flexGrow: 1}}>
                         You Todo List
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Button
+                        onClick={() => {
+                            navigate("/login")
+                        }}
+                        color="inherit">
+                        Login
+                    </Button>
                 </Toolbar>
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
