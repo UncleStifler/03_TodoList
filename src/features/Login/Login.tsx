@@ -12,18 +12,13 @@ import {loginTC} from "./auth-reducer";
 import {useDispatch} from "react-redux";
 import {useAppReducer} from "../../components/state/store";
 import {Navigate} from "react-router-dom";
+import {LoginParamsType} from "../../components/api/auth-api";
 
-
-type FormikErrorType = {
-    email?: string
-    password?: string
-    rememberMe?: boolean
-}
 
 export const Login = () => {
 
     const dispatch = useDispatch()
-    const isLoggedIn = useAppReducer<boolean>(state => state.auth.isLoggedIn )
+    const isLoggedIn = useAppReducer<boolean>(state => state.auth.isLoggedIn)
 
 
     const formik = useFormik({
@@ -33,10 +28,10 @@ export const Login = () => {
             rememberMe: false
         },
         validate: (values) => {
-            const errors: FormikErrorType = {};
+            const errors: Partial<Omit<LoginParamsType, "captcha">> = {};
             if (!values.email) {
                 errors.email = 'Required';
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email.trim())) {
                 errors.email = 'Invalid email address';
             }
             if (!values.password) {
@@ -47,13 +42,14 @@ export const Login = () => {
             return errors;
         },
         onSubmit: values => {
-           dispatch(loginTC(values))
+            dispatch(loginTC(values))
             formik.resetForm()
         }
     })
 
     if (isLoggedIn) {
-        return <Navigate to="/"/> }
+        return <Navigate to="/"/>
+    }
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>

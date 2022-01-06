@@ -19,16 +19,21 @@ import Grid from "@mui/material/Grid";
 import {AddItemForm} from "../../components/AddItemForm";
 import Paper from "@mui/material/Paper";
 import TodoList from "../../components/TodoList";
+import {Navigate} from "react-router-dom";
 
 const TodoListsContainer = () => {
 
     const dispatch = useDispatch()
+    const isLoggedIn = useAppReducer<boolean>(state => state.auth.isLoggedIn )
 
 
     const todoLists = useAppReducer<TodolistDomainType[]>(state => state.todoLists)
     const tasksObj = useAppReducer<TasksStateType>(state => state.tasks)
 
     useEffect(() => {
+        if (!isLoggedIn) {
+            return
+        }
         dispatch(loadTodoListsTC)
     }, [dispatch])
 
@@ -65,6 +70,11 @@ const TodoListsContainer = () => {
         const thunk = changeTodoListTitleTC(todoListId, newTodoListTitle)
         dispatch(thunk)
     }, [dispatch])
+
+    if (!isLoggedIn) {
+        return <Navigate to={"login"}/>
+
+    }
 
     return (
         <>

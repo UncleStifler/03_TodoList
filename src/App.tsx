@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {useAppReducer} from "./components/state/store";
 import AppBar from '@mui/material/AppBar';
@@ -15,10 +15,19 @@ import {Login} from "./features/Login/Login";
 import {Routes, Route, Navigate, useNavigate} from "react-router-dom"
 import TodoListsContainer from "./features/Todolist/TodoListsContainer";
 import Page404 from "./features/Login/Page404";
+import {useDispatch} from "react-redux";
+import {initializeAppTC} from "./features/Login/auth-reducer";
 
 function App() {
+
+    const dispatch = useDispatch()
     const status = useAppReducer<RequestStatusType>(state => state.app.status)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        dispatch(initializeAppTC())
+    }, []);
+
     return (
         <div className="App">
             <ErrorSnackbar/>

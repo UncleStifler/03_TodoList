@@ -13,6 +13,12 @@ export type ResponseType<D = {}> = {
     data: D
 }
 
+export type MeResponseType = {
+    id: string,
+    email: string,
+    login: string
+}
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
