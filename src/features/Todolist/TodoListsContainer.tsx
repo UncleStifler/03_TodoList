@@ -22,7 +22,6 @@ import TodoList from "../../components/TodoList";
 import {Navigate} from "react-router-dom";
 
 const TodoListsContainer = () => {
-
     const dispatch = useDispatch()
     const isLoggedIn = useAppReducer<boolean>(state => state.auth.isLoggedIn )
 
@@ -73,7 +72,6 @@ const TodoListsContainer = () => {
 
     if (!isLoggedIn) {
         return <Navigate to={"login"}/>
-
     }
 
     return (
