@@ -34,18 +34,12 @@ export const todoListsReducer = (state: TodolistDomainType[] = initialState, act
             }, ...state]
         }
         case "TODOLIST/CHANGE-TODOLIST-TITLE" : {
-            return state.map(tl =>
-                tl.title === action.title ? {...tl, title: action.title} : tl)
-
-        }
+            return state.map(tl => tl.id === action.id ? {...tl, title: action.title} : tl)}
         case "TODOLIST/CHANGE-TODOLIST-FILTER" : {
-            return state.map(tl =>
-                tl.id === action.id ? {...tl, filter: action.filter} : tl)
-        }
+            return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl)}
         case "TODOLIST/CHANGE-TODOLIST-ENTITY-STATUS": {
             return state.map(tl => tl.id === action.todoListId ?
-                {...tl, entityStatus: action.entityStatus} : tl)
-        }
+                {...tl, entityStatus: action.entityStatus} : tl)}
         default:
             return state
     }
@@ -159,7 +153,7 @@ export const changeTodoListTitleTC = (todoListId: string, title: string) => {
                 dispatch(setAppErrorAC(error.message))
             })
             .finally(() => {
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppStatusAC('idle'))
             })
     }
 }

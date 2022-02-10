@@ -38,9 +38,11 @@ export const TodoList = React.memo(function (props: TodoListType) {
     const onAllClickHandler = useCallback(() => {
         changeFilter("all", todoListId)
     }, [changeFilter, todoListId])
+
     const onCompletedClickHandler = useCallback(() => {
         changeFilter("completed", todoListId)
     }, [changeFilter, todoListId])
+
     const onActiveClickHandler = useCallback(() => {
         changeFilter("active", todoListId)
     }, [changeFilter, todoListId])
@@ -49,7 +51,6 @@ export const TodoList = React.memo(function (props: TodoListType) {
         removeTodoList(todoListId)
     }
 
-    // изначальная ц-ция просит два аргумента, так можно от него избавиться
     const addTaskForAddItem = useCallback((title: string) => {
         addTask(title, todoListId)
     }, [addTask, todoListId])

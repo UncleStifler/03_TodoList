@@ -28,7 +28,7 @@ function App() {
 
     useEffect(() => {
         dispatch(initializeAppTC())
-    }, []);
+    }, [dispatch]);
 
     const loginLogoutHandler = () => {
         dispatch(logoutTC())

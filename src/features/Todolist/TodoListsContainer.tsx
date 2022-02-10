@@ -34,7 +34,7 @@ const TodoListsContainer = () => {
             return
         }
         dispatch(loadTodoListsTC)
-    }, [dispatch])
+    }, [dispatch, isLoggedIn])
 
     const addTask = useCallback((title: string, todoListId: string) => {
         dispatch(addTaskTC(todoListId, title))
@@ -66,8 +66,7 @@ const TodoListsContainer = () => {
     }, [dispatch])
 
     const changeTodoListTitle = useCallback((todoListId: string, newTodoListTitle: string) => {
-        const thunk = changeTodoListTitleTC(todoListId, newTodoListTitle)
-        dispatch(thunk)
+        dispatch(changeTodoListTitleTC(todoListId, newTodoListTitle))
     }, [dispatch])
 
     if (!isLoggedIn) {

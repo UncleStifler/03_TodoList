@@ -19,8 +19,6 @@ type TaskPropsType = {
 }
 export const Task = React.memo((props: TaskPropsType) => {
 
-    // const entityTaskStatus = useAppReducer<TasksStateType>(state => state.tasks)
-
     const {
         task, todoListId, changeStatusCheckbox, changeTaskTitle, removeTask,
         entityTaskStatus
