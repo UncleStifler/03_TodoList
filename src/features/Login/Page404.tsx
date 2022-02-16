@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom"
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 
-
 const Page404 = () => {
     const navigate = useNavigate()
 
@@ -35,7 +34,6 @@ const Page404 = () => {
                     onClick={() => navigate("/")}>
                     HOME PAGE
                 </Button>
-
             </Paper>
         </Grid>
     );

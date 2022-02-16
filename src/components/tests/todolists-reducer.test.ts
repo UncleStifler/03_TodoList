@@ -5,7 +5,7 @@ import {
     changeTodoListTitleAC, FilterValuesType,
     removeTodoListAC, setTodoListsAC, TodolistDomainType,
     todoListsReducer
-} from "./todolists-reducer";
+} from "../state/todolists-reducer";
 import {TodolistType} from "../api/todolists-api";
 
 

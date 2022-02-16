@@ -1,6 +1,6 @@
 import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
-import { tasksReducer } from "./tasks-reducer";
-import {setTodoListsAC, TodolistDomainType} from "./todolists-reducer";
+import { tasksReducer } from "../state/tasks-reducer";
+import {setTodoListsAC, TodolistDomainType} from "../state/todolists-reducer";
 
 test('correct task should be deleted from correct array', () => {
     // const startState: TasksStateType = {

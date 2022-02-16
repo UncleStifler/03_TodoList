@@ -10,10 +10,10 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import {Menu} from "@mui/icons-material";
 import {ErrorSnackbar} from "./components/ErrorSnackBar/ErrorSnackBar";
-import {RequestStatusType} from "./components/app/app-reducer";
+import {RequestStatusType} from "./components/state/app-reducer";
 import {Login} from "./features/Login/Login";
 import {Routes, Route, Navigate, useNavigate} from "react-router-dom"
-import TodoListsContainer from "./features/Todolist/TodoListsContainer";
+import TodoListsContainer from "./components/todolist/TodoListsContainer";
 import Page404 from "./features/Login/Page404";
 import {useDispatch} from "react-redux";
 import {initializeAppTC, InitialStateType, logoutTC} from "./features/Login/auth-reducer";
@@ -60,7 +60,7 @@ function App() {
                         variant="h6"
                         component="div"
                         sx={{flexGrow: 1}}>
-                        You Todo List
+                        You Trello board
                     </Typography>
                     {isLoggedIn && <Button
                         onClick={loginLogoutHandler}

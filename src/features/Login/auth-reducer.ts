@@ -2,30 +2,30 @@ import {
     setAppErrorActionType,
     setAppStatusAC,
     setAppStatusActionType
-} from "../../components/app/app-reducer";
+} from "../../components/state/app-reducer";
 import {Dispatch} from "redux";
 import {authLoginAPI, LoginParamsType} from "../../components/api/auth-api";
 import {handleServerAppError, handleServerNetworkError} from "../../components/utils/error-utils";
+import {SET_INITIALIZED_AC, SET_IS_LOGGED_IN} from "../../components/state/constants-for-reducers";
 
 const initialState = {
     isLoggedIn: false,
     isInitialized: false
 }
-export type InitialStateType = typeof initialState
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'login/SET-IS-LOGGED-IN':
+        case SET_IS_LOGGED_IN:
             return {...state, isLoggedIn: action.value}
-        case "login/SET-INITIALIZED-AC":
+        case SET_INITIALIZED_AC:
             return {...state, isInitialized: action.value}
         default:
             return state
     }
 }
 
-export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN', value} as const)
-export const setIsInitializedAC = (value: boolean) => ({type: 'login/SET-INITIALIZED-AC', value} as const)
+export const setIsLoggedInAC = (value: boolean) => ({type: SET_IS_LOGGED_IN, value} as const)
+export const setIsInitializedAC = (value: boolean) => ({type: SET_INITIALIZED_AC, value} as const)
 
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
@@ -77,6 +77,8 @@ export const logoutTC = () => (dispatch: Dispatch) => {
             handleServerNetworkError(error, dispatch)
         })
 }
+
+export type InitialStateType = typeof initialState
 
 type ActionsType = ReturnType<typeof setIsLoggedInAC> |
     ReturnType<typeof setIsInitializedAC> |

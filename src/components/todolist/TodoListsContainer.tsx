@@ -1,24 +1,24 @@
 import React, {useCallback, useEffect} from 'react';
 import {useDispatch} from "react-redux";
-import {useAppReducer} from "../../components/state/store";
+import {useAppReducer} from "../state/store";
 import {
     changeTodoListFilterAC, changeTodoListTitleTC, createTodoListTC,
     FilterValuesType,
     loadTodoListsTC, removeTodoListTC,
     TodolistDomainType
-} from "../../components/state/todolists-reducer";
+} from "../state/todolists-reducer";
 import {
     addTaskTC,
     changeTaskTitleTC,
     removeTaskTC,
     TasksStateType,
     updateTasksStatusTC
-} from "../../components/state/tasks-reducer";
-import {TaskStatuses} from "../../components/api/todolists-api";
+} from "../state/tasks-reducer";
+import {TaskStatuses} from "../api/todolists-api";
 import Grid from "@mui/material/Grid";
-import {AddItemForm} from "../../components/AddItemForm";
+import {AddItemForm} from "../../features/AddItemForm";
 import Paper from "@mui/material/Paper";
-import TodoList from "../../components/TodoList";
+import TodoList from "./TodoList";
 import {Navigate} from "react-router-dom";
 
 const TodoListsContainer = () => {

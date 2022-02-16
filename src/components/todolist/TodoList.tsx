@@ -1,15 +1,15 @@
 import React, {useCallback} from 'react';
-import {AddItemForm} from "./AddItemForm";
-import {EditableSpan} from "./EditableSpan";
-import {Task} from "./Task";
+import {AddItemForm} from "../../features/AddItemForm";
+import {EditableSpan} from "../../features/EditableSpan";
+import {Task} from "../tasks/Task";
 import {Delete} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
-import {TaskStatuses} from "./api/todolists-api";
-import {FilterValuesType} from "./state/todolists-reducer";
-import {RequestStatusType} from "./app/app-reducer";
-import {TasksDomain_Type} from "./state/tasks-reducer";
+import {TaskStatuses} from "../api/todolists-api";
+import {FilterValuesType} from "../state/todolists-reducer";
+import {RequestStatusType} from "../state/app-reducer";
+import {TasksDomain_Type} from "../state/tasks-reducer";
 
 export type TodoListType = {
     todoListId: string
