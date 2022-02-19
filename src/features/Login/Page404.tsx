@@ -6,7 +6,6 @@ import Grid from "@mui/material/Grid";
 
 const Page404 = () => {
     const navigate = useNavigate()
-
     return (
         <Grid container spacing={3}
               style={{

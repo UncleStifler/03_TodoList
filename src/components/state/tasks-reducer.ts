@@ -183,8 +183,7 @@ export const updateTasksStatusTC = (todoListId: string, taskId: string, status: 
                 priority: currentTask.priority,
                 startDate: currentTask.startDate,
                 deadline: currentTask.description,
-                description: currentTask.description,
-            }
+                description: currentTask.description}
             dispatch(setAppStatusAC('loading'))
             dispatch(changeTaskEntityStatusAC(taskId, todoListId, 'loading'))
             tasksListsAPI.updateTask(todoListId, taskId, model)
@@ -207,8 +206,7 @@ export const changeTaskTitleTC = (taskId: string, title: string, todoListId: str
                 priority: currentTask.priority,
                 startDate: currentTask.startDate,
                 deadline: currentTask.description,
-                description: currentTask.description,
-            }
+                description: currentTask.description}
             dispatch(setAppStatusAC('loading'))
             dispatch(changeTaskEntityStatusAC(taskId, todoListId, 'loading'))
             tasksListsAPI.updateTask(todoListId, taskId, model)

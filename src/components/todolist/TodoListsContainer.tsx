@@ -44,30 +44,30 @@ const TodoListsContainer = () => {
         dispatch(removeTaskTC(idTasks, todolistId))
     }, [dispatch])
 
-    const changeFilter = useCallback((value: FilterValuesType, todoListId: string) => {
+    const changeFilter = (value: FilterValuesType, todoListId: string) => {
         const action = changeTodoListFilterAC(value, todoListId)
         dispatch(action)
-    }, [dispatch])
+    }
 
-    const changeStatusCheckbox = useCallback((tasksID: string, status: TaskStatuses, todoListId: string) => {
+    const changeStatusCheckbox = (tasksID: string, status: TaskStatuses, todoListId: string) => {
         dispatch(updateTasksStatusTC(todoListId, tasksID, status))
-    }, [dispatch])
+    }
 
-    const removeTodoList = useCallback((todoListId: string) => {
+    const removeTodoList = (todoListId: string) => {
         dispatch(removeTodoListTC(todoListId))
-    }, [dispatch])
+    }
 
-    const addTodoList = useCallback((title: string) => {
+    const addTodoList = (title: string) => {
         dispatch(createTodoListTC(title))
-    }, [dispatch])
+    }
 
-    const changeTaskTitle = useCallback((id: string, newValue: string, todoListId: string) => {
+    const changeTaskTitle = (id: string, newValue: string, todoListId: string) => {
         dispatch(changeTaskTitleTC(id, newValue, todoListId))
-    }, [dispatch])
+    }
 
-    const changeTodoListTitle = useCallback((todoListId: string, newTodoListTitle: string) => {
+    const changeTodoListTitle =(todoListId: string, newTodoListTitle: string) => {
         dispatch(changeTodoListTitleTC(todoListId, newTodoListTitle))
-    }, [dispatch])
+    }
 
     if (!isLoggedIn) {
         return <Navigate to={"login"}/>
