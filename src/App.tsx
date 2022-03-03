@@ -16,14 +16,14 @@ import {Routes, Route, Navigate, useNavigate} from "react-router-dom"
 import TodoListsContainer from "./components/todolist/TodoListsContainer";
 import Page404 from "./features/Login/Page404";
 import {useDispatch} from "react-redux";
-import {initializeAppTC, InitialStateType, logoutTC} from "./features/Login/auth-reducer";
+import {initializeAppTC, logoutTC} from "./features/Login/auth-reducer";
 import {CircularProgress} from "@mui/material";
 
 function App() {
 
     const dispatch = useDispatch()
     const status = useAppReducer<RequestStatusType>(state => state.app.status)
-    const {isInitialized, isLoggedIn} = useAppReducer<InitialStateType>(state => state.auth)
+    const {isInitialized, isLoggedIn} = useAppReducer(state => state.auth)
     const navigate = useNavigate()
 
     useEffect(() => {
