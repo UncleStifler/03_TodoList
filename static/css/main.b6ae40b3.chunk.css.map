@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/App.css"],"names":[],"mappings":"AAAA,gCACE,wBACF,CAGA,GACE,oBACF,CAEA,GACE,cACF","file":"main.b6ae40b3.chunk.css","sourcesContent":[".commonClassName:nth-child(odd) {\r\n  background-color: #f6f6f6;\r\n}\r\n\r\n\r\nli {\r\n  list-style-type: none;\r\n}\r\n\r\nul {\r\n  padding-left: 0\r\n}\r\n"]}
