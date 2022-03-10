@@ -23,7 +23,7 @@ import {Navigate} from "react-router-dom";
 
 const TodoListsContainer = () => {
     const dispatch = useDispatch()
-    const isLoggedIn = useAppReducer<boolean>(state => state.auth.isLoggedIn )
+    const isLoggedIn = useAppReducer<boolean>(state => state.auth.isLoggedIn)
 
 
     const todoLists = useAppReducer<TodolistDomainType[]>(state => state.todoLists)
@@ -45,7 +45,7 @@ const TodoListsContainer = () => {
     }, [dispatch])
 
     const changeFilter = (value: FilterValuesType, todoListId: string) => {
-        const action = changeTodoListFilterAC(value, todoListId)
+        const action = changeTodoListFilterAC({filter: value, todoListId})
         dispatch(action)
     }
 
@@ -65,7 +65,7 @@ const TodoListsContainer = () => {
         dispatch(changeTaskTitleTC(id, newValue, todoListId))
     }
 
-    const changeTodoListTitle =(todoListId: string, newTodoListTitle: string) => {
+    const changeTodoListTitle = (todoListId: string, newTodoListTitle: string) => {
         dispatch(changeTodoListTitleTC(todoListId, newTodoListTitle))
     }
 

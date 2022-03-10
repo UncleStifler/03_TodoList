@@ -68,6 +68,8 @@ export const TodoList = React.memo(function (props: TodoListType) {
         tasksForTodolist = tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
+   // console.log(JSON.parse(JSON.stringify(tasksForTodolist)))
+
     return (
         <div>
             <Link>
